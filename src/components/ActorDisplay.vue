@@ -70,6 +70,8 @@ import Markdown from 'vue3-markdown-it'
 import * as Powers from '@/assets/powers.json'
 import { VueFinalModal } from 'vue-final-modal'
 
+const delay = async (ms) => new Promise(res => setTimeout(res, ms));
+
 export default {
   name: 'ActorDisplay',
   components: {
@@ -98,12 +100,11 @@ export default {
       senses: ['darkvistion 60 ft', 'passive Perception 11'],
       languages: ['All registered languages'],
       challenge: '2 (450 XP)',
-      traits: ' Techcasting. The droid is a 5th-level techcaster. Its techcasting ability is Intelligence (tech save DC 13, +5 to hit with tech powers). It has 22 tech points and knows the following tech powers: [](#)\r\nAt will: [assess the situation](#assess%20the%20situation), [electroshock](#electroshock), [venomous strike](#venomous%20strike)\r\n1st-level: [poison dart](#poison%20dart), [spot the weakness](#spot%20the%20weakness), [toxin scan](#toxin%20scan), [tranquilizer](#tranquilizer)\r\n2nd-level: [paralyze humanoid](#paralyze%20humanoid), [toxin purge](#toxin%20purge), [truth serum](#truth%20serum)\r\n3rd-level: [tactical advantage](#tactical%20advantage)'
+      traits: ' Techcasting. The droid is a 5th-level techcaster. Its techcasting ability is Intelligence (tech save DC 13, +5 to hit with tech powers). It has 22 tech points and knows the following tech powers: [](#)\r\n\r\nAt will: [assess the situation](#assess%20the%20situation), [electroshock](#electroshock), [venomous strike](#venomous%20strike)\r\n\r\n1st-level: [poison dart](#poison%20dart), [spot the weakness](#spot%20the%20weakness), [toxin scan](#toxin%20scan), [tranquilizer](#tranquilizer)\r\n\r\n2nd-level: [paralyze humanoid](#paralyze%20humanoid), [toxin purge](#toxin%20purge), [truth serum](#truth%20serum)\r\n\r\n3rd-level: [tactical advantage](#tactical%20advantage)'
     }
   },
   methods: {
     addHP(e) {
-      console.log(e)
       if(this.currentHealth < this.maxHealth) {
         this.currentHealth += e.ctrlKey ? 5 : 1
         this.currentHealth = Math.min(this.currentHealth, this.maxHealth)
@@ -115,15 +116,14 @@ export default {
         this.currentHealth = Math.max(this.currentHealth, 0)
       }
     },
-    clickLink(e) {
+    async clickLink(e) {
+      await delay(100)
       let powerName = e.view.location.href.replace(/.+#/, '').replace(/%20/g, ' ')
-      console.log(powerName)
       for (const index in Powers) {
         const power = Powers[index]
         if (String(power.name).toLowerCase() === powerName) {
           this.modalPower = power
           this.showModal = true
-          console.log(power)
         }
       }
     }
