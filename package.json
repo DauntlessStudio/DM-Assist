@@ -16,6 +16,7 @@
     "core-js": "^3.8.3",
     "splitpanes": "^3.1.5",
     "vue": "^3.2.13",
+    "vue-final-modal": "3",
     "vue3-markdown-it": "^1.0.10"
   },
   "devDependencies": {

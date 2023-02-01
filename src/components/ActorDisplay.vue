@@ -1,4 +1,9 @@
 <template>
+  <div>
+    <vue-final-modal v-model="this.showModal" classes="modal-container" content-class="modal-content">
+      <power-display :power="this.modalPower"></power-display>
+    </vue-final-modal>
+  </div>
   <h1>{{ this.actorName }}</h1>
   <div class="initiative">
     <p><strong>Initiative: </strong> {{ this.initiative }}</p>
@@ -60,16 +65,22 @@
 </template>
 
 <script>
+import PowerDisplay from '@/components/PowerDisplay.vue'
 import Markdown from 'vue3-markdown-it'
 import * as Powers from '@/assets/powers.json'
+import { VueFinalModal } from 'vue-final-modal'
 
 export default {
   name: 'ActorDisplay',
   components: {
-    Markdown
+    Markdown,
+    VueFinalModal,
+    PowerDisplay
   },
   data() {
     return {
+      showModal: false,
+      modalPower: {},
       actorName: 'Actor Name',
       initiative: 10,
       armorClass: 10,
@@ -110,7 +121,9 @@ export default {
       for (const index in Powers) {
         const power = Powers[index]
         if (String(power.name).toLowerCase() === powerName) {
-          console.log(JSON.stringify(power))
+          this.modalPower = power
+          this.showModal = true
+          console.log(power)
         }
       }
     }
