@@ -50,7 +50,7 @@
     <p><strong>Challenge: </strong>{{ this.challenge }}</p>
     <div class="traits">
       <h3>TRAITS</h3>
-      <markdown :source="this.traits"></markdown>
+      <markdown @click="clickLink" :source="this.traits"></markdown>
     </div>
     <div class="actions">
       <h3>ACTIONS</h3>
@@ -61,6 +61,7 @@
 
 <script>
 import Markdown from 'vue3-markdown-it'
+import * as Powers from '@/assets/powers.json'
 
 export default {
   name: 'ActorDisplay',
@@ -101,6 +102,16 @@ export default {
       if(this.currentHealth > 0) {
         this.currentHealth -= e.ctrlKey ? 5 : 1
         this.currentHealth = Math.max(this.currentHealth, 0)
+      }
+    },
+    clickLink(e) {
+      let powerName = e.view.location.href.replace(/.+#/, '').replace(/%20/g, ' ')
+      console.log(powerName)
+      for (const index in Powers) {
+        const power = Powers[index]
+        if (String(power.name).toLowerCase() === powerName) {
+          console.log(JSON.stringify(power))
+        }
       }
     }
   }
@@ -156,5 +167,13 @@ export default {
 }
 .extras h3 {
   border-bottom: 3px solid gray;
+}
+.extras a:link {
+  color: gray;
+  text-decoration: none;
+}
+.extras a:visited {
+  color: gray;
+  text-decoration: none;
 }
 </style>
