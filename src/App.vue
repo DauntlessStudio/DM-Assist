@@ -6,7 +6,15 @@
     <pane>
       <splitpanes horizontal class="dark">
         <pane min-size="10" size="70">
-          <div class="main">2</div>
+          <div class="main">
+            <div class="btn-group">
+              <button>Add</button>
+              <button>Import</button>
+            </div>
+            <div class="actors">
+              <ActorDisplay></ActorDisplay>
+            </div>
+          </div>
         </pane>
         <pane min-size="10" size="30">
           <div class="notes">
@@ -24,11 +32,12 @@
 
 <script>
 import { Splitpanes, Pane } from 'splitpanes'
+import ActorDisplay from '@/components/ActorDisplay.vue'
 import 'splitpanes/dist/splitpanes.css'
 
 export default {
   name: 'App',
-  components: { Splitpanes, Pane },
+  components: { Splitpanes, Pane, ActorDisplay },
 }
 </script>
 
@@ -38,7 +47,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   width: 100%;
   height: 100%;
   margin: 0;
