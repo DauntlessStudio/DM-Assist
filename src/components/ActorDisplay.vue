@@ -342,4 +342,18 @@ export default {
   color: gray;
   text-decoration: none;
 }
+
+@media only screen and (max-width: 992px) {
+  h1 {
+    font-size: 1.2em;
+  }
+  p {
+    font-size: 0.75em;
+  }
+  .visibility {
+    right: 0px;
+    top: -5px;
+    font-size: 1.2em;
+  }
+}
 </style>

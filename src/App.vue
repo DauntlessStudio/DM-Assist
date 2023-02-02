@@ -259,8 +259,9 @@ body {
 .sidebar {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  overflow-y: auto;
   background-color: #2c3e50;
 }
 .main {
@@ -328,6 +329,31 @@ p.dice {
 }
 .dice img:hover {
   filter: brightness(1)
+}
+@media only screen and (max-width: 992px) {
+  .dice img {
+    max-width: 64px;
+    max-height: 64px;
+  }
+  p.dice {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 1em;
+    font-weight: bold;
+  }
+  .dice-val {
+    float: none;
+    font-size: 2em;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .scrollable {
+    max-width: 80vw;
+    max-height: 70vh;
+    font-size: 0.75em;
+  }
 }
 .player-input button {
   float: none;
