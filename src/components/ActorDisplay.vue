@@ -1,21 +1,22 @@
 <template>
+<div>
   <div>
     <vue-final-modal v-model="this.showModal" classes="modal-container" content-class="modal-content">
       <power-display :power="this.modalPower"></power-display>
     </vue-final-modal>
   </div>
-  <h1>{{ this.actorName }}</h1>
+  <h1 class="actorName">{{ getActorName }}</h1>
   <div class="initiative">
-    <p><strong>Initiative: </strong> {{ this.initiative }}</p>
+    <p><strong>Initiative: </strong> {{ getInitiative }}</p>
   </div>
   <div class="armor">
-    <p><strong>Armor Class: </strong> {{ this.armorClass }}</p>
+    <p><strong>Armor Class: </strong> {{ getArmorClass }}</p>
   </div>
   <div class="hp">
     <button @click="removeHP">-</button>
     <div class="shell">
-      <span>{{ `${currentHealth}/${maxHealth}` }}</span>
-      <div class="bar" :style="{ width: (currentHealth / maxHealth * 100) + '%' }">
+      <span>{{ `${getCurrentHealth}/${getMaxHealth}` }}</span>
+      <div class="bar" :style="{ width: (getCurrentHealth / getMaxHealth * 100) + '%' }">
       </div>
     </div>
     <button @click="addHP">+</button>
@@ -23,45 +24,54 @@
   <div class="stats">
     <div class="strength">
       <strong>STR</strong>
-      <p>{{ `${this.str} (${this.str >= 10 ? '+' : '-'}${Math.floor((this.str - 10) * 0.5)})` }}</p>
+      <p>{{ `${getStr} (${getStr >= 10 ? '+' : '-'}${Math.floor((getStr - 10) * 0.5)})` }}</p>
     </div>
     <div class="dexterity">
       <strong>DEX</strong>
-      <p>{{ `${this.dex} (${this.dex >= 10 ? '+' : '-'}${Math.floor((this.dex - 10) * 0.5)})` }}</p>
+      <p>{{ `${getDex} (${getDex >= 10 ? '+' : '-'}${Math.floor((getDex - 10) * 0.5)})` }}</p>
     </div>
     <div class="constitution">
       <strong>CON</strong>
-      <p>{{ `${this.con} (${this.con >= 10 ? '+' : '-'}${Math.floor((this.con - 10) * 0.5)})` }}</p>
+      <p>{{ `${getCon} (${getCon >= 10 ? '+' : '-'}${Math.floor((getCon - 10) * 0.5)})` }}</p>
     </div>
     <div class="intelligence">
       <strong>INT</strong>
-      <p>{{ `${this.int} (${this.int >= 10 ? '+' : '-'}${Math.floor((this.int - 10) * 0.5)})` }}</p>
+      <p>{{ `${getInt} (${getInt >= 10 ? '+' : '-'}${Math.floor((getInt - 10) * 0.5)})` }}</p>
     </div>
     <div class="wisdom">
       <strong>WIS</strong>
-      <p>{{ `${this.wis} (${this.wis >= 10 ? '+' : '-'}${Math.floor((this.wis - 10) * 0.5)})` }}</p>
+      <p>{{ `${getWis} (${getWis >= 10 ? '+' : '-'}${Math.floor((getWis - 10) * 0.5)})` }}</p>
     </div>  
     <div class="charisma">
       <strong>CHA</strong>
-      <p>{{ `${this.cha} (${this.cha >= 10 ? '+' : '-'}${Math.floor((this.cha - 10) * 0.5)})` }}</p>
+      <p>{{ `${getCha} (${getCha >= 10 ? '+' : '-'}${Math.floor((getCha - 10) * 0.5)})` }}</p>
     </div>
   </div>
   <div class="extras">
-    <p><strong>Skills: </strong>{{ this.skills.join(', ') }}</p>
-    <p><strong>Damage Vulnerabilities: </strong>{{ this.vulnerabilities.join(', ') }}</p>
-    <p><strong>Damage Resistances: </strong>{{ this.resistances.join(', ') }}</p>
-    <p><strong>Senses: </strong>{{ this.senses.join(', ') }}</p>
-    <p><strong>Languages: </strong>{{ this.languages.join(', ') }}</p>
-    <p><strong>Challenge: </strong>{{ this.challenge }}</p>
-    <div class="traits">
+    <p><strong>Skills: </strong>{{ getSkills }}</p>
+    <p><strong>Damage Vulnerabilities: </strong>{{ getVulnerabilities }}</p>
+    <p><strong>Damage Resistances: </strong>{{ getResistances }}</p>
+    <p><strong>Senses: </strong>{{ getSenses }}</p>
+    <p><strong>Languages: </strong>{{ getLanguages }}</p>
+    <p><strong>Challenge: </strong>{{ getChallenge }}</p>
+    <div class="traits" v-if="getTraits.length">
       <h3>TRAITS</h3>
-      <markdown @click="clickLink" :source="this.traits"></markdown>
+      <markdown v-for="trait in getTraits" :key="trait" @click="clickLink" :source="trait.descriptionWithLinks"></markdown>
     </div>
-    <div class="actions">
+    <div class="actions" v-if="getActions.length">
       <h3>ACTIONS</h3>
-      <p>Tortuous Strike</p>
+      <markdown v-for="action in getActions" :key="action" :source="action.description"></markdown>
+    </div>
+    <div class="reactions" v-if="getReactions.length">
+      <h3>REACTIONS</h3>
+      <markdown v-for="reaction in getReactions" :key="reaction" :source="reaction.description"></markdown>
+    </div>
+    <div class="legendary" v-if="getLegendary.length">
+      <h3>LEGENDARY</h3>
+      <markdown v-for="legendary in getLegendary" :key="legendary" :source="legendary.description"></markdown>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -79,28 +89,11 @@ export default {
     VueFinalModal,
     PowerDisplay
   },
+  props: ['actor'],
   data() {
     return {
       showModal: false,
       modalPower: {},
-      actorName: 'Actor Name',
-      initiative: 10,
-      armorClass: 10,
-      currentHealth: 25,
-      maxHealth: 25,
-      str: 10,
-      dex: 10,
-      con: 10,
-      int: 10,
-      wis: 10,
-      cha: 10,
-      skills: ['Lore +5', 'Insight +4'],
-      vulnerabilities: ['Ion'],
-      resistances: ['Necrotic'],
-      senses: ['darkvistion 60 ft', 'passive Perception 11'],
-      languages: ['All registered languages'],
-      challenge: '2 (450 XP)',
-      traits: ' Techcasting. The droid is a 5th-level techcaster. Its techcasting ability is Intelligence (tech save DC 13, +5 to hit with tech powers). It has 22 tech points and knows the following tech powers: [](#)\r\n\r\nAt will: [assess the situation](#assess%20the%20situation), [electroshock](#electroshock), [venomous strike](#venomous%20strike)\r\n\r\n1st-level: [poison dart](#poison%20dart), [spot the weakness](#spot%20the%20weakness), [toxin scan](#toxin%20scan), [tranquilizer](#tranquilizer)\r\n\r\n2nd-level: [paralyze humanoid](#paralyze%20humanoid), [toxin purge](#toxin%20purge), [truth serum](#truth%20serum)\r\n\r\n3rd-level: [tactical advantage](#tactical%20advantage)'
     }
   },
   methods: {
@@ -127,11 +120,139 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    getActorName() {
+      if (this.actor) {
+        return this.actor.name
+      }
+      return 'Actor Name'
+    },
+    getInitiative() {
+      return 10
+    },
+    getArmorClass() {
+      if (this.actor) {
+        return this.actor.armorClass
+      }
+      return 10
+    },
+    getCurrentHealth() {
+      if (this.actor) {
+        return this.actor.hitPoints
+      }
+      return 20
+    },
+    getMaxHealth() {
+      if (this.actor) {
+        return this.actor.hitPoints
+      }
+      return 20
+    },
+    getStr() {
+      if (this.actor) {
+        return this.actor.strength
+      }
+      return 10
+    },
+    getDex() {
+      if (this.actor) {
+        return this.actor.dexterity
+      }
+      return 10
+    },
+    getCon() {
+      if (this.actor) {
+        return this.actor.constitution
+      }
+      return 10
+    },
+    getInt() {
+      if (this.actor) {
+        return this.actor.intelligence
+      }
+      return 10
+    },
+    getWis() {
+      if (this.actor) {
+        return this.actor.wisdom
+      }
+      return 10
+    },
+    getCha() {
+      if (this.actor) {
+        return this.actor.charisma
+      }
+      return 10
+    },
+    getSkills() {
+      if (this.actor) {
+        return this.actor.skills.join(', ')
+      }
+      return 'Skills'
+    },
+    getVulnerabilities() {
+      if (this.actor) {
+        return this.actor.damageVulnerabilities.join(', ')
+      }
+      return 'Vulns'
+    },
+    getResistances() {
+      if (this.actor) {
+        return this.actor.damageResistances.join(', ')
+      }
+      return 'Res'
+    },
+    getSenses() {
+      if (this.actor) {
+        return this.actor.senses.join(', ')
+      }
+      return 'Senses'
+    },
+    getLanguages() {
+      if (this.actor) {
+        return this.actor.languages.join(', ')
+      }
+      return 'Languages'
+    },
+    getChallenge() {
+      if (this.actor) {
+        `${this.actor.challengeRating} (${this.actor.experiencePoints} XP)`
+      }
+      return '0 (0 XP)'
+    },
+    getTraits() {
+      if (this.actor && this.actor.behaviors.length) {
+        return this.actor.behaviors.filter((element) => element.monsterBehaviorType === 'Trait')
+      }
+      return []
+    },
+    getActions() {
+      if (this.actor && this.actor.behaviors.length) {
+        return this.actor.behaviors.filter((element) => element.monsterBehaviorType === 'Action')
+      }
+      return []
+    },
+    getReactions() {
+      if (this.actor && this.actor.behaviors.length) {
+        return this.actor.behaviors.filter((element) => element.monsterBehaviorType === 'Reaction')
+      }
+      return []
+    },
+    getLegendary() {
+      if (this.actor && this.actor.behaviors.length) {
+        return this.actor.behaviors.filter((element) => element.monsterBehaviorType === 'Legendary')
+      }
+      return []
+    }
   }
 }
 </script>
 
 <style>
+.actorName {
+  min-height: 8%;
+}
 .hp {
   display: flex;
   justify-content: center;
