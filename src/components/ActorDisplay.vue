@@ -94,13 +94,14 @@ export default {
     VueFinalModal,
     PowerDisplay
   },
-  props: ['actor'],
+  props: ['actor', 'initiative'],
   data() {
     return {
       showModal: false,
       modalPower: {},
       currentHealth: 0,
       minimized: false,
+      initiativeValue: this.initiative ?? Math.floor(Math.random() * 21)
     }
   },
   mounted() {
@@ -142,7 +143,7 @@ export default {
       return 'Actor Name'
     },
     getInitiative() {
-      return 10
+      return this.initiativeValue
     },
     getArmorClass() {
       if (this.actor && this.actor.armorClass) {
