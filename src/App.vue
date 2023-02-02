@@ -24,11 +24,11 @@
     <vue-final-modal v-model="this.showPlayerAdd" classes="modal-container" content-class="modal-content">
       <span class="modal__title">Add Player</span>
       <div class="modal__content player-input">
-        <input v-model="Name" placeholder="Player Name..." />
+        <input ref="nameField" v-model="this.playerName" placeholder="Player Name..." />
         <br>
-        <input v-model="Initiative" placeholder="Player Initiative..." />
+        <input ref="initiativeField" v-model="this.playerInitiative" placeholder="Player Initiative..." />
         <br>
-        <button @click="adPlayerToInitiative(Name, Initiative)">Confirm</button>
+        <button @click="addPlayerToInitiative">Confirm</button>
       </div>
     </vue-final-modal>
   </div>
@@ -96,6 +96,8 @@ export default {
       d8Count: 0,
       d6Count: 0,
       d4Count: 0,
+      playerName: '',
+      playerInitiative: ''
     }
   },
   methods: {
@@ -134,10 +136,13 @@ export default {
       monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
     },
-    adPlayerToInitiative(name, initiative) {
-      console.log(name, initiative)
-      let player = {name: name, initiative: initiative}
+    addPlayerToInitiative() {
+      let player = {name: this.playerName, initiative: this.playerInitiative}
       this.initiativeOrder.push(player)
+      this.playerName = ''
+      this.playerInitiative = ''
+      this.$refs.nameField.value = ''
+      this.$refs.initiativeField.value = ''
     },
     setMonsterSort(sortVal) {
       if (this.monsterSort === sortVal) {
