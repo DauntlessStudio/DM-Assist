@@ -6,7 +6,7 @@
     </vue-final-modal>
   </div>
   <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
-  <button @click="toggleMinimized" v-if="this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
+  <button @click="toggleMinimized" v-if="this.minimized && getCurrentHealth" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
   <h1 v-if="getActorName" class="actorName">{{ getActorName }}</h1>
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
