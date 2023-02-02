@@ -33,8 +33,16 @@
     </vue-final-modal>
   </div>
   <splitpanes class="default-theme dark" style="height: 100vh">
-    <pane min-size="10" max-size="70" size="20">
-      <div class="sidebar">1</div>
+    <pane min-size="10" max-size="70" size="17">
+      <div class="sidebar">
+        <button @click="{this.diceVal += this.random(1, 20); this.d20Count += 1;}" class="dice d20"><img src="@/assets/d20.png" alt="d20"><p class="dice" v-show="this.d20Count">{{ `x${this.d20Count}` }}</p></button>
+        <button @click="{this.diceVal += this.random(1, 12); this.d12Count += 1;}" class="dice d12"><img src="@/assets/d12.png" alt="d12"><p class="dice" v-show="this.d12Count">{{ `x${this.d12Count}` }}</p></button>
+        <button @click="{this.diceVal += this.random(1, 10); this.d10Count += 1;}" class="dice d10"><img src="@/assets/d10.png" alt="d10"><p class="dice" v-show="this.d10Count">{{ `x${this.d10Count}` }}</p></button>
+        <button @click="{this.diceVal += this.random(1, 8); this.d8Count += 1;}" class="dice d8"><img src="@/assets/d8.png" alt="d8"><p class="dice" v-show="this.d8Count">{{ `x${this.d8Count}` }}</p></button>
+        <button @click="{this.diceVal += this.random(1, 6); this.d6Count += 1;}" class="dice d6"><img src="@/assets/d6.png" alt="d6"><p class="dice" v-show="this.d6Count">{{ `x${this.d6Count}` }}</p></button>
+        <button @click="{this.diceVal += this.random(1, 4); this.d4Count += 1;}" class="dice d4"><img src="@/assets/d4.png" alt="d4"><p class="dice" v-show="this.d4Count">{{ `x${this.d4Count}` }}</p></button>
+        <button @click="resetDice" v-show="this.diceVal" class="dice-val">{{ this.diceVal }}</button>
+      </div>
     </pane>
     <pane>
       <splitpanes horizontal class="dark">
@@ -70,10 +78,6 @@ import ActorDisplay from '@/components/ActorDisplay.vue'
 import * as Monsters from '@/assets/monsters.json'
 import 'splitpanes/dist/splitpanes.css'
 
-function random(min,max) {
- return Math.floor((Math.random())*(max-min+1))+min;
-}
-
 export default {
   name: 'App',
   components: { Splitpanes, Pane, VueFinalModal, ActorDisplay },
@@ -85,9 +89,28 @@ export default {
       monsterSort: "name",
       monsterInverse: false,
       initiativeOrder: [],
+      diceVal: 0,
+      d20Count: 0,
+      d12Count: 0,
+      d10Count: 0,
+      d8Count: 0,
+      d6Count: 0,
+      d4Count: 0,
     }
   },
   methods: {
+    random(min,max) {
+     return Math.floor((Math.random())*(max-min+1))+min;
+    },
+    resetDice() {
+      this.diceVal = 0
+      this.d20Count = 0
+      this.d12Count = 0
+      this.d10Count = 0
+      this.d8Count = 0
+      this.d6Count = 0
+      this.d4Count = 0
+    },
     addHP(monster, amount) {
       if(monster.currentHitPoints < monster.hitPoints) {
         monster.currentHitPoints += amount
@@ -107,7 +130,7 @@ export default {
       this.showPlayerAdd = true
     },
     addMonsterToInitiative(monster) {
-      monster['initiative'] = random(1, 20)
+      monster['initiative'] = this.random(1, 20)
       monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
     },
@@ -279,6 +302,32 @@ button {
 }
 button:hover {
   color: white;
+}
+.dice-val {
+  float: none;
+  font-size: 3em;
+  font-weight: bold;
+}
+p.dice {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  font-size: 2em;
+  font-weight: bold;
+}
+.dice {
+  position: relative;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+}
+.dice img {
+  max-width: 120px;
+  max-height: 120px;
+  filter: brightness(0.5)
+}
+.dice img:hover {
+  filter: brightness(1)
 }
 .player-input button {
   float: none;
