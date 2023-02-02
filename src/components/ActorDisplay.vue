@@ -1,74 +1,79 @@
 <template>
-<div>
+<div style="position: relative;">
   <div>
     <vue-final-modal v-model="this.showModal" classes="modal-container" content-class="modal-content">
       <power-display :power="this.modalPower"></power-display>
     </vue-final-modal>
   </div>
-  <h1 class="actorName">{{ getActorName }}</h1>
-  <div class="initiative">
+  <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
+  <button @click="toggleMinimized" v-if="this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
+  <h1 v-if="getActorName" class="actorName">{{ getActorName }}</h1>
+  <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
   </div>
-  <div class="armor">
-    <p><strong>Armor Class: </strong> {{ getArmorClass }}</p>
-  </div>
-  <div class="hp">
-    <button @click="removeHP">-</button>
-    <div class="shell">
-      <span>{{ `${getCurrentHealth}/${getMaxHealth}` }}</span>
-      <div class="bar" :style="{ width: (getCurrentHealth / getMaxHealth * 100) + '%' }">
+  <div v-if="!this.minimized">
+    <div v-if="getArmorClass" class="armor">
+      <p><strong>Armor Class: </strong> {{ getArmorClass }}</p>
+    </div>
+    <div v-if="getMaxHealth" class="hp">
+      <button @click="removeHP">-</button>
+      <div class="shell">
+        <span>{{ `${getCurrentHealth}/${getMaxHealth}` }}</span>
+        <div class="bar" :style="{ width: (getCurrentHealth / getMaxHealth * 100) + '%' }">
+        </div>
+      </div>
+      <button @click="addHP">+</button>
+    </div>
+    <div class="stats">
+      <div v-if="getStr" class="strength">
+        <strong>STR</strong>
+        <p>{{ `${getStr} (${getStr >= 10 ? '+' : '-'}${Math.floor((getStr - 10) * 0.5)})` }}</p>
+      </div>
+      <div v-if="getDex" class="dexterity">
+        <strong>DEX</strong>
+        <p>{{ `${getDex} (${getDex >= 10 ? '+' : '-'}${Math.floor((getDex - 10) * 0.5)})` }}</p>
+      </div>
+      <div v-if="getCon" class="constitution">
+        <strong>CON</strong>
+        <p>{{ `${getCon} (${getCon >= 10 ? '+' : '-'}${Math.floor((getCon - 10) * 0.5)})` }}</p>
+      </div>
+      <div v-if="getInt" class="intelligence">
+        <strong>INT</strong>
+        <p>{{ `${getInt} (${getInt >= 10 ? '+' : '-'}${Math.floor((getInt - 10) * 0.5)})` }}</p>
+      </div>
+      <div v-if="getWis" class="wisdom">
+        <strong>WIS</strong>
+        <p>{{ `${getWis} (${getWis >= 10 ? '+' : '-'}${Math.floor((getWis - 10) * 0.5)})` }}</p>
+      </div>
+      <div v-if="getCha" class="charisma">
+        <strong>CHA</strong>
+        <p>{{ `${getCha} (${getCha >= 10 ? '+' : '-'}${Math.floor((getCha - 10) * 0.5)})` }}</p>
       </div>
     </div>
-    <button @click="addHP">+</button>
-  </div>
-  <div class="stats">
-    <div class="strength">
-      <strong>STR</strong>
-      <p>{{ `${getStr} (${getStr >= 10 ? '+' : '-'}${Math.floor((getStr - 10) * 0.5)})` }}</p>
-    </div>
-    <div class="dexterity">
-      <strong>DEX</strong>
-      <p>{{ `${getDex} (${getDex >= 10 ? '+' : '-'}${Math.floor((getDex - 10) * 0.5)})` }}</p>
-    </div>
-    <div class="constitution">
-      <strong>CON</strong>
-      <p>{{ `${getCon} (${getCon >= 10 ? '+' : '-'}${Math.floor((getCon - 10) * 0.5)})` }}</p>
-    </div>
-    <div class="intelligence">
-      <strong>INT</strong>
-      <p>{{ `${getInt} (${getInt >= 10 ? '+' : '-'}${Math.floor((getInt - 10) * 0.5)})` }}</p>
-    </div>
-    <div class="wisdom">
-      <strong>WIS</strong>
-      <p>{{ `${getWis} (${getWis >= 10 ? '+' : '-'}${Math.floor((getWis - 10) * 0.5)})` }}</p>
-    </div>  
-    <div class="charisma">
-      <strong>CHA</strong>
-      <p>{{ `${getCha} (${getCha >= 10 ? '+' : '-'}${Math.floor((getCha - 10) * 0.5)})` }}</p>
-    </div>
-  </div>
-  <div class="extras">
-    <p><strong>Skills: </strong>{{ getSkills }}</p>
-    <p><strong>Damage Vulnerabilities: </strong>{{ getVulnerabilities }}</p>
-    <p><strong>Damage Resistances: </strong>{{ getResistances }}</p>
-    <p><strong>Senses: </strong>{{ getSenses }}</p>
-    <p><strong>Languages: </strong>{{ getLanguages }}</p>
-    <p><strong>Challenge: </strong>{{ getChallenge }}</p>
-    <div class="traits" v-if="getTraits.length">
-      <h3>TRAITS</h3>
-      <markdown v-for="trait in getTraits" :key="trait" @click="clickLink" :source="trait.descriptionWithLinks"></markdown>
-    </div>
-    <div class="actions" v-if="getActions.length">
-      <h3>ACTIONS</h3>
-      <markdown v-for="action in getActions" :key="action" :source="action.description"></markdown>
-    </div>
-    <div class="reactions" v-if="getReactions.length">
-      <h3>REACTIONS</h3>
-      <markdown v-for="reaction in getReactions" :key="reaction" :source="reaction.description"></markdown>
-    </div>
-    <div class="legendary" v-if="getLegendary.length">
-      <h3>LEGENDARY</h3>
-      <markdown v-for="legendary in getLegendary" :key="legendary" :source="legendary.description"></markdown>
+    <div class="extras">
+      <p v-if="getSkills"><strong>Skills: </strong>{{ getSkills }}</p>
+      <p v-if="getVulnerabilities"><strong>Damage Vulnerabilities: </strong>{{ getVulnerabilities }}</p>
+      <p v-if="getResistances"><strong>Damage Resistances: </strong>{{ getResistances }}</p>
+      <p v-if="getSenses"><strong>Senses: </strong>{{ getSenses }}</p>
+      <p v-if="getLanguages"><strong>Languages: </strong>{{ getLanguages }}</p>
+      <p v-if="getChallenge"><strong>Challenge: </strong>{{ getChallenge }}</p>
+      <div class="traits" v-if="getTraits.length">
+        <h3>TRAITS</h3>
+        <markdown v-for="trait in getTraits" :key="trait" @click="clickLink" :source="trait.descriptionWithLinks">
+        </markdown>
+      </div>
+      <div class="actions" v-if="getActions.length">
+        <h3>ACTIONS</h3>
+        <markdown v-for="action in getActions" :key="action" :source="action.description"></markdown>
+      </div>
+      <div class="reactions" v-if="getReactions.length">
+        <h3>REACTIONS</h3>
+        <markdown v-for="reaction in getReactions" :key="reaction" :source="reaction.description"></markdown>
+      </div>
+      <div class="legendary" v-if="getLegendary.length">
+        <h3>LEGENDARY</h3>
+        <markdown v-for="legendary in getLegendary" :key="legendary" :source="legendary.description"></markdown>
+      </div>
     </div>
   </div>
 </div>
@@ -94,13 +99,18 @@ export default {
     return {
       showModal: false,
       modalPower: {},
+      currentHealth: 0,
+      minimized: false,
     }
+  },
+  mounted() {
+    this.currentHealth = this.getMaxHealth
   },
   methods: {
     addHP(e) {
-      if(this.currentHealth < this.maxHealth) {
+      if(this.currentHealth < this.getMaxHealth) {
         this.currentHealth += e.ctrlKey ? 5 : 1
-        this.currentHealth = Math.min(this.currentHealth, this.maxHealth)
+        this.currentHealth = Math.min(this.currentHealth, this.getMaxHealth)
       }
     },
     removeHP(e) {
@@ -108,6 +118,9 @@ export default {
         this.currentHealth -= e.ctrlKey ? 5 : 1
         this.currentHealth = Math.max(this.currentHealth, 0)
       }
+    },
+    toggleMinimized() {
+      this.minimized = !this.minimized
     },
     async clickLink(e) {
       await delay(100)
@@ -123,7 +136,7 @@ export default {
   },
   computed: {
     getActorName() {
-      if (this.actor) {
+      if (this.actor && this.actor.name) {
         return this.actor.name
       }
       return 'Actor Name'
@@ -132,94 +145,91 @@ export default {
       return 10
     },
     getArmorClass() {
-      if (this.actor) {
+      if (this.actor && this.actor.armorClass) {
         return this.actor.armorClass
       }
-      return 10
+      return undefined
     },
     getCurrentHealth() {
-      if (this.actor) {
-        return this.actor.hitPoints
-      }
-      return 20
+      return this.currentHealth
     },
     getMaxHealth() {
-      if (this.actor) {
+      if (this.actor && this.actor.hitPoints) {
         return this.actor.hitPoints
       }
-      return 20
+      return undefined
     },
     getStr() {
-      if (this.actor) {
+      if (this.actor && this.actor.strength) {
         return this.actor.strength
       }
-      return 10
+      return undefined
     },
     getDex() {
-      if (this.actor) {
+      if (this.actor && this.actor.dexterity) {
         return this.actor.dexterity
       }
-      return 10
+      return undefined
     },
     getCon() {
-      if (this.actor) {
+      if (this.actor && this.actor.constitution) {
         return this.actor.constitution
       }
-      return 10
+      return undefined
     },
     getInt() {
-      if (this.actor) {
+      if (this.actor && this.actor.intelligence) {
         return this.actor.intelligence
       }
-      return 10
+      return undefined
     },
     getWis() {
-      if (this.actor) {
+      if (this.actor && this.actor.wisdom) {
         return this.actor.wisdom
       }
-      return 10
+      return undefined
     },
     getCha() {
-      if (this.actor) {
+      if (this.actor && this.actor.charisma) {
         return this.actor.charisma
       }
-      return 10
+      return undefined
     },
     getSkills() {
-      if (this.actor) {
+      if (this.actor && this.actor.skills) {
         return this.actor.skills.join(', ')
       }
-      return 'Skills'
+      return undefined
     },
     getVulnerabilities() {
-      if (this.actor) {
+      if (this.actor && this.actor.damageVulnerabilities) {
         return this.actor.damageVulnerabilities.join(', ')
       }
-      return 'Vulns'
+      return undefined
     },
     getResistances() {
-      if (this.actor) {
+      if (this.actor && this.actor.damageResistances) {
         return this.actor.damageResistances.join(', ')
       }
-      return 'Res'
+      return undefined
     },
     getSenses() {
-      if (this.actor) {
+      if (this.actor && this.actor.senses) {
         return this.actor.senses.join(', ')
       }
-      return 'Senses'
+      return undefined
     },
     getLanguages() {
-      if (this.actor) {
+      if (this.actor && this.actor.languages) {
         return this.actor.languages.join(', ')
       }
-      return 'Languages'
+      return undefined
     },
     getChallenge() {
-      if (this.actor) {
-        `${this.actor.challengeRating} (${this.actor.experiencePoints} XP)`
+      if (this.actor && this.actor.challengeRating !== undefined && this.actor.experiencePoints !== undefined) {
+        return `${this.actor.challengeRating} (${this.actor.experiencePoints} XP)`
       }
-      return '0 (0 XP)'
+      return undefined
     },
     getTraits() {
       if (this.actor && this.actor.behaviors.length) {
@@ -250,6 +260,18 @@ export default {
 </script>
 
 <style>
+.visibility {
+  position: absolute;
+  background: transparent;
+  border-style: none;
+  color: gray;
+  right: 20px;
+  top: 25px;
+  font-size: 2em;
+}
+.visibility:hover {
+  color: white;
+}
 .actorName {
   min-height: 8%;
 }

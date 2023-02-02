@@ -209,21 +209,14 @@ td, th {
 }
 
 .actors {
-  position: relative;
-  display: flex;
-  min-height: 97%;
-  min-width: 0;
+  min-height: fit-content;
+  max-height: 90%;
   overflow-y: auto;
   overflow-x: auto;
-  padding-bottom: 0;
-  margin: 0;
 }
 
 .actors > .actor {
-  flex: 1;
-  min-width: 450px;
-  max-width: 450px;
-  border-right: 2px solid gray;
+  border-bottom: 2px solid gray;
   padding: 10px;
 }
 </style>
