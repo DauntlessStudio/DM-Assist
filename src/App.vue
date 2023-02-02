@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-final-modal v-model="this.showModal" classes="modal-container" content-class="modal-content">
+    <vue-final-modal v-model="this.showMonsterList" classes="modal-container" content-class="modal-content">
       <span class="modal__title">Select Monster</span>
       <div class="modal__content scrollable">
         <table>
@@ -21,6 +21,16 @@
         </table>
       </div>
     </vue-final-modal>
+    <vue-final-modal v-model="this.showPlayerAdd" classes="modal-container" content-class="modal-content">
+      <span class="modal__title">Add Player</span>
+      <div class="modal__content player-input">
+        <input v-model="Name" placeholder="Player Name..." />
+        <br>
+        <input v-model="Initiative" placeholder="Player Initiative..." />
+        <br>
+        <button @click="adPlayerToInitiative(Name, Initiative)">Confirm</button>
+      </div>
+    </vue-final-modal>
   </div>
   <splitpanes class="default-theme dark" style="height: 100vh">
     <pane min-size="10" max-size="70" size="20">
@@ -31,8 +41,8 @@
         <pane min-size="10" size="70">
           <div class="main">
             <div class="btn-group">
-              <button @click="showMonsters">Add</button>
-              <button>Import</button>
+              <button @click="showMonsters">Monster</button>
+              <button @click="showPlayers">Player</button>
             </div>
             <div class="actors" v-if="getInitiativeOrder.length">
               <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
@@ -65,7 +75,8 @@ export default {
   components: { Splitpanes, Pane, VueFinalModal, ActorDisplay },
   data() {
     return {
-      showModal: false,
+      showMonsterList: false,
+      showPlayerAdd: false,
       monsterList: Monsters,
       monsterSort: "name",
       monsterInverse: false,
@@ -86,14 +97,20 @@ export default {
       }
     },
     showMonsters() {
-      this.showModal = true
-      console.log(this.monsterList[0].types[0])
-      console.log(typeof(this.monsterList[0].types))
+      this.showMonsterList = true
+    },
+    showPlayers() {
+      this.showPlayerAdd = true
     },
     addMonsterToInitiative(monster) {
       monster['initiative'] = Math.floor(Math.random() * 20) + 1
       monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
+    },
+    adPlayerToInitiative(name, initiative) {
+      console.log(name, initiative)
+      let player = {name: name, initiative: initiative}
+      this.initiativeOrder.push(player)
     },
     setMonsterSort(sortVal) {
       if (this.monsterSort === sortVal) {
@@ -247,6 +264,34 @@ body {
 }
 .btn-group button:hover, tr button:hover {
   color: white;
+}
+button {
+  background-color: inherit;
+  border-style: none;
+  color: gray;
+  padding: 10px 24px;
+  cursor: pointer;
+  float: left;
+}
+button:hover {
+  color: white;
+}
+.player-input button {
+  float: none;
+}
+input {
+  background: transparent;
+  color: white;
+  margin: 10px;
+  border: 2px solid gray;
+}
+input:focus {
+  outline: none;
+  border: 2px solid white;
+  transition: border 0.2s;
+}
+input::placeholder {
+  color: gray;
 }
 textarea {
   resize: none;
