@@ -41,9 +41,6 @@ export default{
         getDescription() {
             return this.power.description ?? 'Lorum Ipsum'
         }
-    },
-    mounted() {
-        console.log(this.power)
     }
 }
 </script>

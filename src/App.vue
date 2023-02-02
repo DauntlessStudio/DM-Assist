@@ -70,6 +70,10 @@ import ActorDisplay from '@/components/ActorDisplay.vue'
 import * as Monsters from '@/assets/monsters.json'
 import 'splitpanes/dist/splitpanes.css'
 
+function random(min,max) {
+ return Math.floor((Math.random())*(max-min+1))+min;
+}
+
 export default {
   name: 'App',
   components: { Splitpanes, Pane, VueFinalModal, ActorDisplay },
@@ -103,7 +107,7 @@ export default {
       this.showPlayerAdd = true
     },
     addMonsterToInitiative(monster) {
-      monster['initiative'] = Math.floor(Math.random() * 20) + 1
+      monster['initiative'] = random(1, 20)
       monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
     },

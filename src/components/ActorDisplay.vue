@@ -102,7 +102,6 @@ export default {
       modalPower: {},
       currentHealth: 0,
       minimized: true,
-      initiativeValue: this.initiative ?? Math.floor(Math.random() * 21)
     }
   },
   mounted() {
@@ -138,7 +137,10 @@ export default {
       return 'Actor Name'
     },
     getInitiative() {
-      return this.initiativeValue
+      if (this.actor && this.actor.initiative) {
+        return this.actor.initiative
+      }
+      return 1
     },
     getArmorClass() {
       if (this.actor && this.actor.armorClass) {
