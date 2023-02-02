@@ -322,6 +322,15 @@ export default {
   display: inline-block;
   margin: 5px;
 }
+.extras p {
+  display: inline;
+  margin-right: 5px;
+  padding-right: 5px;
+  border-right: 3px solid gray;
+}
+.extras p:last-of-type {
+  border-right: none;
+}
 .extras h3 {
   border-bottom: 3px solid gray;
 }
