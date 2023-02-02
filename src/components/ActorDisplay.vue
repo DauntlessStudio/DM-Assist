@@ -95,12 +95,13 @@ export default {
     PowerDisplay
   },
   props: ['actor', 'initiative'],
+  emits: ['addHP', 'removeHP'],
   data() {
     return {
       showModal: false,
       modalPower: {},
       currentHealth: 0,
-      minimized: false,
+      minimized: true,
       initiativeValue: this.initiative ?? Math.floor(Math.random() * 21)
     }
   },
@@ -109,16 +110,10 @@ export default {
   },
   methods: {
     addHP(e) {
-      if(this.currentHealth < this.getMaxHealth) {
-        this.currentHealth += e.ctrlKey ? 5 : 1
-        this.currentHealth = Math.min(this.currentHealth, this.getMaxHealth)
-      }
+      this.$emit('addHP', this.actor, e.ctrlKey ? 5 : 1)
     },
     removeHP(e) {
-      if(this.currentHealth > 0) {
-        this.currentHealth -= e.ctrlKey ? 5 : 1
-        this.currentHealth = Math.max(this.currentHealth, 0)
-      }
+      this.$emit('removeHP', this.actor, e.ctrlKey ? 5 : 1)
     },
     toggleMinimized() {
       this.minimized = !this.minimized
@@ -152,7 +147,10 @@ export default {
       return undefined
     },
     getCurrentHealth() {
-      return this.currentHealth
+      if (this.actor && this.actor.currentHitPoints !== undefined) {
+        return this.actor.currentHitPoints
+      }
+      return undefined
     },
     getMaxHealth() {
       if (this.actor && this.actor.hitPoints) {

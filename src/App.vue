@@ -34,8 +34,8 @@
               <button @click="showMonsters">Add</button>
               <button>Import</button>
             </div>
-            <div class="actors" v-if="this.initiativeOrder.length">
-              <ActorDisplay class="actor" v-for="actor in this.initiativeOrder" :key="actor" :actor="actor"></ActorDisplay>
+            <div class="actors" v-if="getInitiativeOrder.length">
+              <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
             </div>
           </div>
         </pane>
@@ -71,13 +71,36 @@ export default {
     }
   },
   methods: {
+    addHP(monster, amount) {
+      if(monster.currentHitPoints < monster.hitPoints) {
+        monster.currentHitPoints += amount
+        monster.currentHitPoints = Math.min(monster.currentHitPoints, monster.hitPoints)
+      }
+    },
+    removeHP(monster, amount) {
+      if(monster.currentHitPoints > 0) {
+        monster.currentHitPoints -= amount
+        monster.currentHitPoints = Math.max(monster.currentHitPoints, 0)
+      }
+    },
     showMonsters() {
       this.showModal = true
       console.log(this.monsterList[0].types[0])
       console.log(typeof(this.monsterList[0].types))
     },
     addMonsterToInitiative(monster) {
+      monster['initiative'] = Math.floor(Math.random() * 20) + 1
+      monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
+    }
+  },
+  computed: {
+    getInitiativeOrder() {
+      let tempList = this.initiativeOrder
+      return tempList.sort(function (a, b) {
+        // console.log(`${a.name}:${a.initiative} ${b.name}:${b.initiative}`)
+        return a.initiative - b.initiative
+      })
     }
   }
 }
