@@ -5,13 +5,13 @@
       <div class="modal__content scrollable">
         <table>
           <tr>
-            <th>Name</th>
-            <th>Size</th>
-            <th>Type</th>
-            <th>CR</th>
-            <th>Alignment</th>
+            <th><button @click="setMonsterSort('name')">Name</button></th>
+            <th><button @click="setMonsterSort('size')">Size</button></th>
+            <th><button @click="setMonsterSort('type')">Type</button></th>
+            <th><button @click="setMonsterSort('cr')">CR</button></th>
+            <th><button @click="setMonsterSort('alignment')">Alignment</button></th>
           </tr>
-          <tr class="monster" v-for="monster in this.monsterList" :key="monster" @click="addMonsterToInitiative(monster)">
+          <tr class="monster" v-for="monster in getMonsterOrder" :key="monster" @click="addMonsterToInitiative(monster)">
             <td>{{ monster.name }}</td>
             <td>{{ monster.size }}</td>
             <td>{{ String(monster.types).replace(/\[\]\"/g, '') }}</td>
@@ -67,7 +67,9 @@ export default {
     return {
       showModal: false,
       monsterList: Monsters,
-      initiativeOrder: []
+      monsterSort: "name",
+      monsterInverse: false,
+      initiativeOrder: [],
     }
   },
   methods: {
@@ -92,14 +94,52 @@ export default {
       monster['initiative'] = Math.floor(Math.random() * 20) + 1
       monster['currentHitPoints'] = monster.hitPoints
       this.initiativeOrder.push(monster)
+    },
+    setMonsterSort(sortVal) {
+      if (this.monsterSort === sortVal) {
+        this.monsterInverse = !this.monsterInverse
+      }else {
+        this.monsterInverse = false
+      }
+      this.monsterSort = sortVal
     }
   },
   computed: {
     getInitiativeOrder() {
       let tempList = this.initiativeOrder
       return tempList.sort(function (a, b) {
-        // console.log(`${a.name}:${a.initiative} ${b.name}:${b.initiative}`)
         return a.initiative - b.initiative
+      })
+    },
+    getMonsterOrder() {
+      let tempList = Object.values(this.monsterList)
+      var sorter = this.monsterSort
+      var inverse = this.monsterInverse
+      return tempList.sort(function (a, b) {
+        let comparison = 0
+        if (a.name && b.name) {
+          switch (sorter) {
+          case 'size':
+            comparison = a.sizeEnum - b.sizeEnum
+            break
+          case 'type':
+            comparison = String(a.types).localeCompare(String(b.types))
+            break
+          case 'cr':
+            comparison = eval(a.challengeRating) - eval(b.challengeRating)
+            break
+          case 'alignment':
+            comparison = a.alignment.localeCompare(b.alignment)
+            break
+          default:
+            comparison = a.name.localeCompare(b.name)
+            break;
+        }
+        }
+        if (inverse) {
+          comparison *= -1
+        }
+        return comparison
       })
     }
   }
@@ -197,7 +237,7 @@ body {
   display: inline-block;
   width: 100%;
 }
-.btn-group button {
+.btn-group button, tr button {
   background-color: inherit;
   border-style: none;
   color: gray;
@@ -205,7 +245,7 @@ body {
   cursor: pointer;
   float: left;
 }
-.btn-group button:hover {
+.btn-group button:hover, tr button:hover {
   color: white;
 }
 textarea {
