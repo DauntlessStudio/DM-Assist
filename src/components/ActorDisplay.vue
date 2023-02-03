@@ -11,19 +11,19 @@
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
   </div>
-  <div v-if="!this.minimized">
-    <div v-if="getArmorClass" class="armor">
-      <p><strong>Armor Class: </strong> {{ getArmorClass }}</p>
-    </div>
-    <div v-if="getMaxHealth" class="hp">
-      <button @click="removeHP">-</button>
-      <div class="shell">
-        <span>{{ `${getCurrentHealth}/${getMaxHealth}` }}</span>
-        <div class="bar" :style="{ width: (getCurrentHealth / getMaxHealth * 100) + '%' }">
-        </div>
+  <div v-if="getArmorClass" class="armor">
+    <p><strong>Armor Class: </strong> {{ getArmorClass }}</p>
+  </div>
+  <div v-if="getMaxHealth" class="hp">
+    <button @click="removeHP">-</button>
+    <div class="shell">
+      <span>{{ `${getCurrentHealth}/${getMaxHealth}` }}</span>
+      <div class="bar" :style="{ width: (getCurrentHealth / getMaxHealth * 100) + '%' }">
       </div>
-      <button @click="addHP">+</button>
     </div>
+    <button @click="addHP">+</button>
+  </div>
+  <div v-if="!this.minimized">
     <div class="stats">
       <div v-if="getStr" class="strength">
         <strong>STR</strong>
@@ -305,7 +305,12 @@ export default {
   font-weight: bold;
 }
 .hp button {
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
   background: transparent;
   color: gray;
   border-style: none;
