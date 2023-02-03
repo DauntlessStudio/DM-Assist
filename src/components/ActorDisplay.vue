@@ -7,6 +7,7 @@
   </div>
   <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
   <button @click="toggleMinimized" v-if="this.minimized && getMaxHealth" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
+  <button @click="deleteThis" class="delete"><font-awesome-icon icon="fa-solid fa-trash" /></button>
   <h1 v-if="getActorName" class="actorName">{{ getActorName }}</h1>
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
@@ -95,7 +96,7 @@ export default {
     PowerDisplay
   },
   props: ['actor', 'initiative'],
-  emits: ['addHP', 'removeHP'],
+  emits: ['addHP', 'removeHP', 'delete'],
   data() {
     return {
       showModal: false,
@@ -113,6 +114,9 @@ export default {
     },
     removeHP(e) {
       this.$emit('removeHP', this.actor, e.ctrlKey ? 5 : 1)
+    },
+    deleteThis() {
+      this.$emit('delete', this.actor)
     },
     toggleMinimized() {
       this.minimized = !this.minimized
@@ -273,6 +277,18 @@ export default {
 .visibility:hover {
   color: white;
 }
+.delete {
+  position: absolute;
+  background: transparent;
+  border-style: none;
+  color: gray;
+  left: 20px;
+  top: 25px;
+  font-size: 2em;
+}
+.delete:hover {
+  color: white;
+}
 .actorName {
   min-height: 8%;
 }
@@ -357,6 +373,11 @@ export default {
   }
   .visibility {
     right: 0px;
+    top: -5px;
+    font-size: 1.2em;
+  }
+  .delete {
+    left: 0px;
     top: -5px;
     font-size: 1.2em;
   }

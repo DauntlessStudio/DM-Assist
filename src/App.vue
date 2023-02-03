@@ -52,9 +52,10 @@
             <div class="btn-group">
               <button @click="showMonsters">Monster</button>
               <button @click="showPlayers">Player</button>
+              <button @click="clearInitiativeOrder">Clear All</button>
             </div>
             <div class="actors" v-if="getInitiativeOrder.length">
-              <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
+              <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" @delete="deleteActor" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
             </div>
           </div>
         </pane>
@@ -125,6 +126,15 @@ export default {
       if(monster.currentHitPoints > 0) {
         monster.currentHitPoints -= amount
         monster.currentHitPoints = Math.max(monster.currentHitPoints, 0)
+      }
+    },
+    clearInitiativeOrder() {
+      this.initiativeOrder = []
+    },
+    deleteActor(actor) {
+      let index = this.initiativeOrder.indexOf(actor)
+      if (index > -1) {
+        this.initiativeOrder.splice(index, 1)
       }
     },
     showMonsters() {
