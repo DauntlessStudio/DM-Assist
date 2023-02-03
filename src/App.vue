@@ -3,6 +3,7 @@
     <vue-final-modal v-model="this.showMonsterList" classes="modal-container" content-class="modal-content">
       <span class="modal__title">Select Monster</span>
       <div class="modal__content scrollable">
+        <input ref="monsterSearch" v-model="this.monsterSearch" placeholder="Monster Name..." />
         <table>
           <tr>
             <th><button @click="setMonsterSort('name')">Name</button></th>
@@ -88,6 +89,7 @@ export default {
       monsterList: Monsters,
       monsterSort: "name",
       monsterInverse: false,
+      monsterSearch: '',
       initiativeOrder: [],
       diceVal: 0,
       d20Count: 0,
@@ -162,7 +164,10 @@ export default {
       })
     },
     getMonsterOrder() {
-      let tempList = Object.values(this.monsterList)
+      let tempList = Object.values(this.monsterList).filter((element) => element.name !== undefined)
+      if (this.monsterSearch !== '') {
+        tempList = tempList.filter((monster) => monster.name.toLowerCase().includes(this.monsterSearch.toLowerCase()))
+      }
       var sorter = this.monsterSort
       var inverse = this.monsterInverse
       return tempList.sort(function (a, b) {
