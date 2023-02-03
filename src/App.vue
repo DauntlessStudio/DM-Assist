@@ -158,7 +158,7 @@ export default {
     getInitiativeOrder() {
       let tempList = this.initiativeOrder
       return tempList.sort(function (a, b) {
-        return a.initiative - b.initiative
+        return b.initiative - a.initiative
       })
     },
     getMonsterOrder() {
