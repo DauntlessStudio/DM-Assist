@@ -132,9 +132,10 @@ export default {
       this.showPlayerAdd = true
     },
     addMonsterToInitiative(monster) {
-      monster['initiative'] = this.random(1, 20)
-      monster['currentHitPoints'] = monster.hitPoints
-      this.initiativeOrder.push(monster)
+      let newMonster = JSON.parse(JSON.stringify(monster))
+      newMonster['initiative'] = this.random(1, 20)
+      newMonster['currentHitPoints'] = newMonster.hitPoints
+      this.initiativeOrder.push(newMonster)
     },
     addPlayerToInitiative() {
       let player = {name: this.playerName, initiative: this.playerInitiative}

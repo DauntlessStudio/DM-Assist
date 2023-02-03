@@ -6,7 +6,7 @@
     </vue-final-modal>
   </div>
   <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
-  <button @click="toggleMinimized" v-if="this.minimized && getCurrentHealth" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
+  <button @click="toggleMinimized" v-if="this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
   <h1 v-if="getActorName" class="actorName">{{ getActorName }}</h1>
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
@@ -27,27 +27,27 @@
     <div class="stats">
       <div v-if="getStr" class="strength">
         <strong>STR</strong>
-        <p>{{ `${getStr} (${getStr >= 10 ? '+' : '-'}${Math.floor((getStr - 10) * 0.5)})` }}</p>
+        <p>{{ `${getStr} (${getStr >= 10 ? '+' : ''}${Math.floor((getStr - 10) * 0.5)})` }}</p>
       </div>
       <div v-if="getDex" class="dexterity">
         <strong>DEX</strong>
-        <p>{{ `${getDex} (${getDex >= 10 ? '+' : '-'}${Math.floor((getDex - 10) * 0.5)})` }}</p>
+        <p>{{ `${getDex} (${getDex >= 10 ? '+' : ''}${Math.floor((getDex - 10) * 0.5)})` }}</p>
       </div>
       <div v-if="getCon" class="constitution">
         <strong>CON</strong>
-        <p>{{ `${getCon} (${getCon >= 10 ? '+' : '-'}${Math.floor((getCon - 10) * 0.5)})` }}</p>
+        <p>{{ `${getCon} (${getCon >= 10 ? '+' : ''}${Math.floor((getCon - 10) * 0.5)})` }}</p>
       </div>
       <div v-if="getInt" class="intelligence">
         <strong>INT</strong>
-        <p>{{ `${getInt} (${getInt >= 10 ? '+' : '-'}${Math.floor((getInt - 10) * 0.5)})` }}</p>
+        <p>{{ `${getInt} (${getInt >= 10 ? '+' : ''}${Math.floor((getInt - 10) * 0.5)})` }}</p>
       </div>
       <div v-if="getWis" class="wisdom">
         <strong>WIS</strong>
-        <p>{{ `${getWis} (${getWis >= 10 ? '+' : '-'}${Math.floor((getWis - 10) * 0.5)})` }}</p>
+        <p>{{ `${getWis} (${getWis >= 10 ? '+' : ''}${Math.floor((getWis - 10) * 0.5)})` }}</p>
       </div>
       <div v-if="getCha" class="charisma">
         <strong>CHA</strong>
-        <p>{{ `${getCha} (${getCha >= 10 ? '+' : '-'}${Math.floor((getCha - 10) * 0.5)})` }}</p>
+        <p>{{ `${getCha} (${getCha >= 10 ? '+' : ''}${Math.floor((getCha - 10) * 0.5)})` }}</p>
       </div>
     </div>
     <div class="extras">
