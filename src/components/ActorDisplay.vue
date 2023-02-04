@@ -8,7 +8,10 @@
   <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
   <button @click="toggleMinimized" v-if="this.minimized && getMaxHealth" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
   <button @click="deleteThis" class="delete"><font-awesome-icon icon="fa-solid fa-trash" /></button>
-  <input v-if="getActorName" v-model="input" v-on:input="$emit('changeName', this.actor, input)" class="actorName" :placeholder="getActorName"/>
+  <div class="nameGrp">
+    <input v-if="getActorName" v-model="input" v-on:input="$emit('changeName', this.actor, input)" class="actorName" :placeholder="getActorName"/>
+    <button @click="$emit('changeName', this.actor, getRandomName())"><font-awesome-icon icon="fa-solid fa-dice" /></button>
+  </div>
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
   </div>
@@ -85,6 +88,7 @@ import PowerDisplay from '@/components/PowerDisplay.vue'
 import Markdown from 'vue3-markdown-it'
 import * as Powers from '@/assets/powers.json'
 import { VueFinalModal } from 'vue-final-modal'
+import {generate_name} from '@/name_generator'
 
 const delay = async (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -109,6 +113,10 @@ export default {
     this.currentHealth = this.getMaxHealth
   },
   methods: {
+    getRandomName() {
+      let randomName = generate_name('sw-names')
+      return randomName
+    },
     addHP(e) {
       this.$emit('addHP', this.actor, e.ctrlKey ? 5 : 1)
     },
@@ -300,6 +308,24 @@ export default {
 .actorName:focus {
   border: none;
 }
+
+.nameGrp {
+  position: relative;
+  margin: auto;
+  max-width: fit-content;
+}
+.nameGrp button {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: -10%;
+  margin: 0;
+  padding: 0;
+  font-size: 2em;
+}
+.actorName:focus + button, .nameGrp button:hover {
+  display: inline;
+}
 .hp {
   display: flex;
   justify-content: center;
@@ -387,6 +413,10 @@ export default {
   .delete {
     left: 0px;
     top: -5px;
+    font-size: 1.2em;
+  }
+  .nameGrp button {
+    top: 10px;
     font-size: 1.2em;
   }
 }
