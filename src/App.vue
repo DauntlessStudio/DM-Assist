@@ -55,7 +55,7 @@
               <button @click="clearInitiativeOrder">Clear All</button>
             </div>
             <div class="actors" v-if="getInitiativeOrder.length">
-              <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" @delete="deleteActor" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
+              <ActorDisplay @add-h-p="addHP" @remove-h-p="removeHP" @delete="deleteActor" @change-name="renameActor" class="actor" v-for="(actor, index) in getInitiativeOrder" :key="index" :actor="actor" :initiative="actor.initiative"></ActorDisplay>
             </div>
           </div>
         </pane>
@@ -136,6 +136,9 @@ export default {
       if (index > -1) {
         this.initiativeOrder.splice(index, 1)
       }
+    },
+    renameActor(actor, name) {
+      actor.name = name
     },
     showMonsters() {
       this.showMonsterList = true

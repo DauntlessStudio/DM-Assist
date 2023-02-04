@@ -8,7 +8,7 @@
   <button @click="toggleMinimized" v-if="!this.minimized" class="visibility"><font-awesome-icon icon="fa-solid fa-eye-slash" /></button>
   <button @click="toggleMinimized" v-if="this.minimized && getMaxHealth" class="visibility"><font-awesome-icon icon="fa-solid fa-eye" /></button>
   <button @click="deleteThis" class="delete"><font-awesome-icon icon="fa-solid fa-trash" /></button>
-  <h1 v-if="getActorName" class="actorName">{{ getActorName }}</h1>
+  <input v-if="getActorName" v-model="input" v-on:input="$emit('changeName', this.actor, input)" class="actorName" :placeholder="getActorName"/>
   <div v-if="getInitiative" class="initiative">
     <p><strong>Initiative: </strong> {{ getInitiative }}</p>
   </div>
@@ -96,7 +96,7 @@ export default {
     PowerDisplay
   },
   props: ['actor', 'initiative'],
-  emits: ['addHP', 'removeHP', 'delete'],
+  emits: ['addHP', 'removeHP', 'delete', 'changeName'],
   data() {
     return {
       showModal: false,
@@ -291,6 +291,14 @@ export default {
 }
 .actorName {
   min-height: 8%;
+  font-size: 2em;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+}
+.actorName:focus {
+  border: none;
 }
 .hp {
   display: flex;
@@ -365,7 +373,7 @@ export default {
 }
 
 @media only screen and (max-width: 992px) {
-  h1 {
+  .actorName {
     font-size: 1.2em;
   }
   p {
