@@ -1,14 +1,35 @@
 <script lang="ts">
-    let list: string[] = [
-        "/images/d4.png",
-        "/images/d6.png",
-        "/images/d8.png",
-        "/images/d10.png",
-        "/images/d12.png",
-        "/images/d20.png",
-    ];
+	import Die from "./Die.svelte";
 
-    let gap = 2;
+    let diceValues: {[key: number]: number[]} = {
+        4: [],
+        6: [],
+        8: [],
+        10: [],
+        12: [],
+        20: [],
+    };
+    const dice: Die[] = [];
+
+    let gap: number = 2;
+    let total: number = 0;
+
+    function onDieRoll(val: number, dieVal: number) {
+        total += val;
+        diceValues[dieVal].push(val);
+        console.log(total);
+    }
+
+    function onDieReset(dieVal: number) {
+        diceValues[dieVal].forEach(val => total -= val);
+        diceValues[dieVal] = [];
+    }
+
+    function resetDieRoll() {
+        total = 0;
+        Object.keys(diceValues).forEach(key => diceValues[Number(key)] = []);
+        dice.forEach(die => die.onReset());
+    }
 </script>
 
 <style>
@@ -16,17 +37,13 @@
         display:grid;
         grid-template-columns:repeat(auto-fit, minmax(100px, 1fr));
     }
-    .red-filter {
-        filter: brightness(0) saturate(100%) invert(15%) sepia(100%) saturate(6932%) hue-rotate(0deg) brightness(100%) contrast(115%);
-        width: 100px;
-        height: 100px;
-    }
 </style>
 
 <div>
     <div class=container style={'grid-gap:'+gap+'px'}>
-        {#each list as url}
-            <img src={url} alt="D20 die" class="red-filter"/>
+        {#each Object.keys(diceValues) as dieVal, i}
+            <Die value={Number(dieVal)} dieRoll={onDieRoll} dieReset={onDieReset} bind:this={dice[i]}/>
         {/each}
     </div>
+    <button on:click={resetDieRoll}>{total}</button>
 </div>
