@@ -4,7 +4,7 @@
 	import CombatPanel from '$lib/components/CombatPanel.svelte';
 </script>
 
-<Splitpanes style="height:100vh">
+<Splitpanes style="height:98vh">
 	<Pane minSize={20} size={20}>
 		<DiceBox/>
 	</Pane>

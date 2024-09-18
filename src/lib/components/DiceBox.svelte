@@ -25,10 +25,10 @@
         diceValues[dieVal] = [];
     }
 
-    function resetDieRoll() {
+    function resetDieRoll(event: MouseEvent) {
         total = 0;
         Object.keys(diceValues).forEach(key => diceValues[Number(key)] = []);
-        dice.forEach(die => die.onReset());
+        dice.forEach(die => die.onReset(event));
     }
 </script>
 

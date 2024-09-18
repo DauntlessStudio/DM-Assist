@@ -12,7 +12,8 @@
         dieCount++;
     }
 
-    export function onReset() {
+    export function onReset(event: MouseEvent) {
+        event.stopPropagation();
         dieReset(value);
         dieCount = 0;
     }
@@ -29,8 +30,8 @@
 <div>
     <button on:click={onRoll}>
         <img src={`/images/d${value}.png`} alt={`A D${value} Die`} class="red-filter"/>
+        {#if dieCount > 0}
+            <button on:click={onReset}>{`x${dieCount}`}</button>
+        {/if}
     </button>
-    {#if dieCount > 0}
-        <button on:click={onReset}>{`x${dieCount}`}</button>
-    {/if}
 </div>

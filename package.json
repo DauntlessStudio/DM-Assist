@@ -30,6 +30,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@okrad/svelte-progressbar": "^2.2.0",
+		"svelte-awesome": "^3.3.4",
 		"svelte-splitpanes": "^8.0.5"
 	}
 }

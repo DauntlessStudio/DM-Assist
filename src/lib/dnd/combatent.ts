@@ -1,4 +1,7 @@
+import type { Monster } from "./monster";
+
 export interface ICombatent {
     id: string;
-    name: string;
+    entry: Monster;
+    initiative: number;
 }

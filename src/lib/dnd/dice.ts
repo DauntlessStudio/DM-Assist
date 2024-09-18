@@ -49,9 +49,12 @@ export class Dice {
         for (const val of values) {
             if (typeof val === "number") {
                 total += val;
+                console.log(`Modified ${val}`);
             } else {
                 for (let index = 0; index < val.amount; index++) {
-                    total += getRandomInteger(val.min, val.max);
+                    const roll = getRandomInteger(val.min, val.max);
+                    total += roll;
+                    console.log(`Rolled ${roll}`);
                 }
             }
         }

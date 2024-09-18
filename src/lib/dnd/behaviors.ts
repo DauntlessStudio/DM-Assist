@@ -12,17 +12,17 @@ export enum MonsterAttackType {
     "RangedWeapon",
 };
 
-interface BehaviorBase {
+export type MonsterBehavior = {
     name: string;
-    monsterBehaviorType: MonsterBehaviorType;
+    monsterBehaviorType: string;
     description: string;
     descriptionWithLinks: string;
     attackType: string;
     restrictions: any;
     attackBonus: number;
-    range?: string;
-    numberOfTargets?: string;
-    damage?: string;
-    damageRoll?: string;
-    damageType: MonsterDamageType;
+    range: string|null;
+    numberOfTargets: string|null;
+    damage: string|null;
+    damageRoll: string|null;
+    damageType: string;
 }
