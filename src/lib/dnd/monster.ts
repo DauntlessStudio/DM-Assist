@@ -123,7 +123,7 @@ export class Monster {
         this.maxHP = rollHP > 0 ? rollHP : data.hitPoints;
         this.curHP = this.maxHP;
 
-        this.initiative = Dice.rollString("d20") + data.dexterityModifier;
+        this.initiative = Dice.rollString(`d20 + ${data.dexterityModifier}`);
         this.name = data.name;
     }
 }

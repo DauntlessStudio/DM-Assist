@@ -10,7 +10,7 @@ export class Dice {
     private readonly value: (number|Range)[];
 
     constructor(rollString: string) {
-        this.value = Dice.parse(rollString);
+        this.value = Dice.parse(rollString.toLowerCase());
     }
 
     public roll() {
@@ -19,14 +19,16 @@ export class Dice {
 
     private static parse(roll: string) {
         const parts: (number|Range)[] = [];
-        const components = roll.match(/\d(d\d+)?|\+|\-/g);
+        const components = roll.match(/\d?(d\d+)?|\+|\-/g);
 
         if (components) {
             let sign = 1;
 
-            for (const comp of components) {
-                if (comp.toLowerCase().includes("d")) {
-                    const split = comp.toLowerCase().split("d");
+            for (let comp of components) {
+                if (comp.startsWith("d")) comp = "1" + comp;
+
+                if (comp.includes("d")) {
+                    const split = comp.split("d");
                     if (split.length === 2) {
                         parts.push({amount: Number(split[0]), min: 1 * sign, max: Number(split[1]) * sign});
                     }
@@ -44,6 +46,7 @@ export class Dice {
     }
 
     private static rollValue(values: (number|Range)[]) {
+        console.log("Rolling");
         let total: number = 0;
 
         for (const val of values) {
@@ -63,6 +66,6 @@ export class Dice {
     }
 
     public static rollString(rollString: string) {
-        return this.rollValue(this.parse(rollString));
+        return this.rollValue(this.parse(rollString.toLowerCase()));
     }
 }
