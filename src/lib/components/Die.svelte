@@ -9,13 +9,13 @@
     
     function onRoll() {
         dieRoll(getRandomInteger(1, value), value);
-        dieCount++;
+        // dieCount++;
     }
 
     export function onReset(event: MouseEvent) {
         event.stopPropagation();
         dieReset(value);
-        dieCount = 0;
+        // dieCount = 0;
     }
 </script>
 

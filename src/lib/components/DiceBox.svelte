@@ -16,8 +16,9 @@
 
     function onDieRoll(val: number, dieVal: number) {
         total += val;
-        diceValues[dieVal].push(val);
-        console.log(total);
+        const arr = diceValues[dieVal];
+        arr.push(val);
+        diceValues[dieVal] = arr;
     }
 
     function onDieReset(dieVal: number) {
@@ -29,6 +30,12 @@
         total = 0;
         Object.keys(diceValues).forEach(key => diceValues[Number(key)] = []);
         dice.forEach(die => die.onReset(event));
+    }
+
+    function removeDieRoll(key: number, index: number) {
+        const arr = diceValues[key];
+		arr.splice(index, 1);
+        diceValues[key] = arr;
     }
 </script>
 
@@ -45,5 +52,27 @@
             <Die value={Number(dieVal)} dieRoll={onDieRoll} dieReset={onDieReset} bind:this={dice[i]}/>
         {/each}
     </div>
-    <button on:click={resetDieRoll}>{total}</button>
+    {#if total > 0}
+        <button on:click={resetDieRoll}>Clear All</button>
+        <div class=container style={'grid-gap:'+gap+'px'}>
+            {#each diceValues[4] as dieVal, i}
+                <button on:click={() => removeDieRoll(4, i)}>D4: {dieVal}</button>
+            {/each}
+            {#each diceValues[6] as dieVal, i}
+                <button on:click={() => removeDieRoll(6, i)}>D6: {dieVal}</button>
+            {/each}
+            {#each diceValues[8] as dieVal, i}
+                <button on:click={() => removeDieRoll(8, i)}>D8: {dieVal}</button>
+            {/each}
+            {#each diceValues[10] as dieVal, i}
+                <button on:click={() => removeDieRoll(10, i)}>D10: {dieVal}</button>
+            {/each}
+            {#each diceValues[12] as dieVal, i}
+                <button on:click={() => removeDieRoll(12, i)}>D12: {dieVal}</button>
+            {/each}
+            {#each diceValues[20] as dieVal, i}
+                <button on:click={() => removeDieRoll(20, i)}>D20: {dieVal}</button>
+            {/each}
+        </div>
+    {/if}
 </div>
