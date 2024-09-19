@@ -1,14 +1,13 @@
 <script lang="ts">
     import type { ICombatent } from "$lib/dnd";
 	import Combatent from "./Combatent.svelte";
-    import monsters from "$lib/data/monsters.json";
 	import { Monster } from "$lib/dnd/monster";
 
     let combatents: {[key: string]: ICombatent} = {};
 
-    function addCombatent() {
+    export function addCombatent(monster: Monster) {
         const id = crypto.randomUUID();
-        const entry = new Monster(monsters[0]);
+        const entry = monster;
         const initiative = entry.Initiative;
         combatents[id] = {id, entry, initiative};
     }
@@ -54,8 +53,8 @@
 
 <div>
     <div>
-        <button on:click={addCombatent}>Add Player</button>
-        <button on:click={addCombatent}>Add Monster</button>
+        <button>Add Player</button>
+        <button>Add Monster</button>
         <button on:click={clearAllCombatents}>Clear All</button>
     </div>
     <div class="scrollable-pane">
