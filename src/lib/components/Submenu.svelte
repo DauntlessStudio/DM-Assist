@@ -1,7 +1,16 @@
 <script lang="ts">
+	import { clickOutside } from "$lib/utils";
+
     export let visible = true;
     export let height = 300;
     export let width = 300;
+
+    const startTime = new Date();
+
+    function toggleVisibility() {
+        if (new Date().getSeconds() - startTime.getSeconds() <= 0.5) return;
+        visible = !visible;
+    }
 </script>
 
 <style>
@@ -21,8 +30,8 @@
 	}
 </style>
 
-<button class="container" on:click={() => visible = !visible}>
-    <div class="center" style="width: {width}px; height: {height}px;">
+<button class="container">
+    <div use:clickOutside={toggleVisibility} class="center" style="width: {width}px; height: {height}px;">
         <slot></slot>
     </div>
 </button>

@@ -23,3 +23,22 @@ export class EventManager {
         addCombatent: new Event<[ICombatent]>(),
     }
 }
+
+export function clickOutside(element: Element, callbackFunction: () => void) {
+    function onClick(event: any) {
+        if (!element.contains(event.target)) {
+            callbackFunction();
+        }
+    }
+    
+    document.body.addEventListener('click', onClick);
+    
+    return {
+        update(newCallbackFunction: () => void) {
+            callbackFunction = newCallbackFunction;
+        },
+        destroy() {
+            document.body.removeEventListener('click', onClick);
+        }
+    }
+}
