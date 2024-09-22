@@ -79,8 +79,8 @@
 </script>
 
 <style>
-    :global(.scrollable-pane) {
-      height: 100vh; /* Or any other appropriate height */
+    .scrollable-pane {
+      height: 84vh; /* Or any other appropriate height */
       display: flex;
       flex-direction: column;
     }

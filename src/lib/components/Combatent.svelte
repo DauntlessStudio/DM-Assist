@@ -18,6 +18,7 @@
     .parent {
         margin-top: 0.5em;
         padding-left: 0.5em;
+        padding-right: 1.5em;
         padding-bottom: 0.5em;
         position: relative;
         line-height: 0px;
