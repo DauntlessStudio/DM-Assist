@@ -25,8 +25,11 @@ export class EventManager {
 }
 
 export function clickOutside(element: Element, callbackFunction: () => void) {
+    const startTime = new Date().getSeconds();
+
     function onClick(event: any) {
-        if (!element.contains(event.target)) {
+        const currentTime = new Date().getSeconds();
+        if (!element.contains(event.target) && currentTime - startTime > 0.5) {
             callbackFunction();
         }
     }

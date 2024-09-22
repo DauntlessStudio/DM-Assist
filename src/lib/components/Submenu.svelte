@@ -5,10 +5,7 @@
     export let height = 300;
     export let width = 300;
 
-    const startTime = new Date();
-
     function toggleVisibility() {
-        if (new Date().getSeconds() - startTime.getSeconds() <= 0.5) return;
         visible = !visible;
     }
 </script>
