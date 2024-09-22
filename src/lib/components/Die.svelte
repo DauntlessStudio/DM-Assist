@@ -5,17 +5,13 @@
     export let dieRoll: (val: number, dieIndex: number) => void;
     export let dieReset: (dieIndex: number) => void;
 
-    let dieCount: number = 0;
-    
     function onRoll() {
         dieRoll(getRandomInteger(1, value), value);
-        // dieCount++;
     }
 
     export function onReset(event: MouseEvent) {
         event.stopPropagation();
         dieReset(value);
-        // dieCount = 0;
     }
 </script>
 
@@ -25,13 +21,17 @@
         width: 100px;
         height: 100px;
     }
+    .red-filter:hover {
+        filter: brightness(0) saturate(100%) invert(15%) sepia(100%) saturate(6932%) hue-rotate(0deg) brightness(70%) contrast(115%);
+    }
+    button, button:focus {
+        border: 0;
+        background-color: transparent;
+    }
 </style>
 
 <div>
     <button on:click={onRoll}>
         <img src={`/images/d${value}.png`} alt={`A D${value} Die`} class="red-filter"/>
-        {#if dieCount > 0}
-            <button on:click={onReset}>{`x${dieCount}`}</button>
-        {/if}
     </button>
 </div>
