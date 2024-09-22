@@ -1,10 +1,11 @@
 
 <script lang="ts">
-    import monsters from "$lib/data/monsters.json";
-	import { Monster } from "$lib/dnd/monster";
+	import { Monster, type IMonster } from "$lib/dnd/monster";
 	import { removeFromArray } from "$lib/utils";
 
     export let selectMonster: (monster: Monster) => void;
+    export let monsters: IMonster[];
+    
     const sizes = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan",];
     const types = ["droid", "construct", "beast", "humanoid", "swarm of Medium droids", "aberration", "swarm of Medium humanoids", "plant", "humanoid (Villainous", "undead", "human", "elemental", "swarm of Tiny beasts", "swarm of Small beasts", "swarm of Tiny droids", "Humanoid", "tree",];
     const ratings = ["0", "1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "23", "24", "25", "26",];
