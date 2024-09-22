@@ -1,29 +1,28 @@
 <script lang="ts">
     export let visible = true;
+    export let height = 300;
+    export let width = 300;
 </script>
 
 <style>
-    .container {
+    .container, .container:focus {
         position: absolute;
         left: 0;
         top: 0;
         height: 100%;
         width: 100%;
+        opacity: 50%;
+        background-color: black;
+        border: 0;
     }
     .center {
-		position: absolute;
-		background-color: #00bfa5;
-		left:  30%;
-		right: 30%;
-		bottom:30%;
-		top: 30%;
-		margin:10px;
-		padding:10px;
+		background-color: white;
+		margin:auto;
 	}
 </style>
 
 <button class="container" on:click={() => visible = !visible}>
-    <div class="center">
+    <div class="center" style="width: {width}px; height: {height}px;">
         <slot></slot>
     </div>
 </button>

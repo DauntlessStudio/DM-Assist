@@ -3,6 +3,7 @@
 	import { Monster, type IMonster } from "$lib/dnd/monster";
 	import { removeFromArray } from "$lib/utils";
 	import { EventManager } from "$lib/utils/events";
+    import NestedButton from "./NestedButton.svelte";
 
     export let monsters: IMonster[];
     
@@ -88,64 +89,68 @@
 </script>
 
 <style>
-    .scrollable-pane {
-      height: 84vh; /* Or any other appropriate height */
-      display: flex;
-      flex-direction: column;
+    .parent-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
-  
+    .stack-element {
+        flex-shrink: 0;
+    }
+    .scrollable-pane {
+        flex-grow: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
     .scrollable-content {
       flex: 1 1 auto;
       overflow-y: auto;
-      min-height: 0; /* This is crucial for Firefox */
+      min-height: 0;
     }
-  
-    /* Optional: Customize scrollbar */
     .scrollable-content::-webkit-scrollbar {
       width: 8px;
     }
-  
     .scrollable-content::-webkit-scrollbar-thumb {
       background-color: #888;
       border-radius: 4px;
     }
-  
     .scrollable-content::-webkit-scrollbar-track {
       background-color: #f1f1f1;
     }
 </style>
 
-<div>
-    <input type="text" placeholder="Search" bind:value={searchFilter} on:input={updateMonsterList}>
-    <div>
-        <button on:click={() => showSizeList = !showSizeList}>Size</button>
+<div class="parent-container">
+    <input class="stack-element" type="text" placeholder="Search" bind:value={searchFilter} on:input={updateMonsterList}>
+    <div class="stack-element">
+        <NestedButton method={() => showSizeList = !showSizeList}>Size</NestedButton>
         {#if showSizeList}
             {#each sizes as size}
-                <button on:click={() => updateSizeFilters(size)}>{size}</button>
+                <NestedButton method={() => updateSizeFilters(size)}>{size}</NestedButton>
             {/each}
         {/if}
     </div>
-    <div>
-        <button on:click={() => showTypeList = !showTypeList}>Type</button>
+    <div class="stack-element">
+        <NestedButton method={() => showTypeList = !showTypeList}>Type</NestedButton>
         {#if showTypeList}
             {#each types as type}
-                <button on:click={() => updateTypeFilters(type)}>{type}</button>
+                <NestedButton method={() => updateTypeFilters(type)}>{type}</NestedButton>
             {/each}
         {/if}
     </div>
-    <div>
-        <button on:click={() => showCRList = !showCRList}>Cr</button>
+    <div class="stack-element">
+        <NestedButton method={() => showCRList = !showCRList}>Cr</NestedButton>
         {#if showCRList}
             {#each ratings as cr}
-                <button on:click={() => updateCRFilters(cr)}>{cr}</button>
+                <NestedButton method={() => updateCRFilters(cr)}>{cr}</NestedButton>
             {/each}
         {/if}
     </div>
-    <div>
-        <button on:click={() => showAlignList = !showAlignList}>Align</button>
+    <div class="stack-element">
+        <NestedButton method={() => showAlignList = !showAlignList}>Align</NestedButton>
         {#if showAlignList}
             {#each alignments as align}
-                <button on:click={() => updateAlignFilters(align)}>{align}</button>
+                <NestedButton method={() => updateAlignFilters(align)}>{align}</NestedButton>
             {/each}
         {/if}
     </div>
@@ -153,7 +158,7 @@
         <div class="scrollable-content">
             {#each monsterList as monster}
                 <div>
-                    <button on:click={() => selectMonster(monster)}>{monster.name} {monster.size} {monster.types[0]} {monster.challengeRating} {monster.alignment}</button>
+                    <NestedButton method={() => selectMonster(monster)}>{monster.name} {monster.size} {monster.types[0]} {monster.challengeRating} {monster.alignment}</NestedButton>
                 </div>
             {/each}
         </div>

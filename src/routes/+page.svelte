@@ -15,15 +15,7 @@
 	});
 </script>
 
-<style>
-	.container {
-		position: relative;
-		height: 100%;
-		width: 100%;
-	}
-</style>
-
-<div class="container">
+<div>
 	<div>
 		<Splitpanes style="height:98vh">
 			<Pane minSize={20} size={20}>
@@ -38,7 +30,7 @@
 		</Splitpanes>
 	</div>
 	{#if showSubmenu}
-	<Submenu bind:visible={showSubmenu}>
+	<Submenu bind:visible={showSubmenu} height={400} width={600}>
 		<MonsterList monsters={data.monsters}/>
 	</Submenu>
 	{/if}
