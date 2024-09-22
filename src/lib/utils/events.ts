@@ -23,6 +23,7 @@ export class EventManager {
         openSubmenu: new Event<[Submenus, ICombatent|undefined]>(),
         closeSubmenu: new Event(),
         addCombatent: new Event<[ICombatent]>(),
+        addDieRoll: new Event<[number, number]>(),
     }
 }
 
@@ -47,3 +48,24 @@ export function clickOutside(element: Element, callbackFunction: () => void) {
         }
     }
 }
+
+export function shortcut(node: any, params: {code: string, callback: () => void}) {
+    let handler: (event: KeyboardEvent) => void;
+    const removeHandler = () => window.removeEventListener('keydown', handler), setHandler = () => {
+        removeHandler();
+        if (!params)
+            return;
+        handler = (e) => {
+            if (params.code != e.code)
+                return;
+            e.preventDefault();
+            params.callback ? params.callback() : node.click();
+        };
+        window.addEventListener('keydown', handler);
+    };
+    setHandler();
+    return {
+        update: setHandler,
+        destroy: removeHandler,
+    };
+};

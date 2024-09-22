@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { EventManager } from "$lib/utils";
 	import Die from "./Die.svelte";
 
     let diceValues: {[key: number]: number[]} = {
@@ -13,6 +14,8 @@
 
     let gap: number = 2;
     let total: number = 0;
+
+    EventManager.events.addDieRoll.subscribe(onDieRoll);
 
     function onDieRoll(val: number, dieVal: number) {
         total += val;

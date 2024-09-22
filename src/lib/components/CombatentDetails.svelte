@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Dice } from "$lib/dnd/dice";
 	import { Monster } from "$lib/dnd/monster";
+	import { EventManager } from "$lib/utils";
 
     export let combatent: Monster;
 
@@ -8,7 +9,7 @@
     $: actions = combatent.data.behaviors.filter(b => b.monsterBehaviorType === "Trait");
 
     function roll(rollStr: string) {
-        alert(Dice.rollString(rollStr));
+        EventManager.events.addDieRoll.raise(Dice.rollString(rollStr), 20);
     }
 </script>
 

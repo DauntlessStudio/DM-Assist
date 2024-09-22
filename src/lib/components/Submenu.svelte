@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickOutside } from "$lib/utils";
+	import { clickOutside, shortcut } from "$lib/utils";
 
     export let visible = true;
     export let height = 300;
@@ -33,7 +33,7 @@
 </style>
 
 <button class="container">
-    <button class="close" on:click={toggleVisibility}>X</button>
+    <button class="close" use:shortcut={{code: "Escape", callback: toggleVisibility}} on:click={toggleVisibility}>X</button>
     <div use:clickOutside={toggleVisibility} class="center" style="width: {width}px; height: {height}px;">
         <slot></slot>
     </div>
