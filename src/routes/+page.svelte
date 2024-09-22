@@ -5,13 +5,20 @@
     import DiceBox from '$lib/components/DiceBox.svelte';
 	import CombatPanel from '$lib/components/CombatPanel.svelte';
 	import MonsterList from '$lib/components/MonsterList.svelte';
-	import { EventManager } from '$lib/utils/events';
+	import { EventManager, type Submenus } from '$lib/utils/events';
+	import AddPlayer from '$lib/components/AddPlayer.svelte';
 
 	export let data: PageData;
 	let showSubmenu: boolean = false;
+	let subMenuType: Submenus;
 
 	EventManager.events.openSubmenu.subscribe((str) => {
 		showSubmenu = true;
+		subMenuType = str;
+	});
+
+	EventManager.events.closeSubmenu.subscribe(() => {
+		showSubmenu = false;
 	});
 </script>
 
@@ -30,8 +37,14 @@
 		</Splitpanes>
 	</div>
 	{#if showSubmenu}
-	<Submenu bind:visible={showSubmenu} height={400} width={600}>
-		<MonsterList monsters={data.monsters}/>
-	</Submenu>
+		{#if subMenuType === "monsterList"}
+		<Submenu bind:visible={showSubmenu} height={400} width={600}>
+			<MonsterList monsters={data.monsters}/>
+		</Submenu>
+		{:else if subMenuType === "addPlayer"}
+		<Submenu bind:visible={showSubmenu} height={100} width={600}>
+			<AddPlayer/>
+		</Submenu>
+		{/if}
 	{/if}
 </div>

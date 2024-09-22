@@ -54,7 +54,7 @@ export interface IMonster {
     types: string[];
     alignment: string;
     armorClass: number;
-    armorType: string|null;
+    armorType?: string;
     hitPoints: number;
     hitPointRoll: string;
     speed: number;
@@ -71,13 +71,13 @@ export interface IMonster {
     intelligenceModifier: number;
     wisdomModifier: number;
     charismaModifier: number;
-    savingThrows: string[]|null;
-    skills: string[]|null;
+    savingThrows?: string[];
+    skills?: string[];
     damageImmunities: string[];
     damageResistances: string[];
     damageVulnerabilities: string[];
     conditionImmunities: string[];
-    senses: string[]|null;
+    senses?: string[];
     languages: string[];
     challengeRating: string;
     experiencePoints: number;
@@ -126,4 +126,38 @@ export class Monster {
         this.initiative = Dice.rollString(`d20 + ${data.dexterityModifier}`);
         this.name = data.name;
     }
+}
+
+export const DEFAULT_PLAYER: IMonster = {
+    name: "",
+    flavorText: "",
+    sectionText: "",
+    size: "",
+    types: ["player"],
+    alignment: "",
+    armorClass: 10,
+    hitPoints: 10,
+    hitPointRoll: "",
+    speed: 30,
+    speeds: "30 ft",
+    strength: 10,
+    dexterity: 10,
+    constitution: 10,
+    intelligence: 10,
+    wisdom: 10,
+    charisma: 10,
+    strengthModifier: 0,
+    dexterityModifier: 0,
+    constitutionModifier: 0,
+    intelligenceModifier: 0,
+    wisdomModifier: 0,
+    charismaModifier: 0,
+    damageImmunities: [],
+    damageResistances: [],
+    damageVulnerabilities: [],
+    conditionImmunities: [],
+    languages: [],
+    challengeRating: "",
+    experiencePoints: 0,
+    behaviors: [],
 }

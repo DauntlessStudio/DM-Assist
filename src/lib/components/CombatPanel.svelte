@@ -13,6 +13,10 @@
         EventManager.events.openSubmenu.raise("monsterList");
     }
 
+    function onAddPlayer() {
+        EventManager.events.openSubmenu.raise("addPlayer");
+    }
+
     function clearAllCombatents() {
         combatents = {};
     }
@@ -54,7 +58,7 @@
 
 <div>
     <div>
-        <button>Add Player</button>
+        <button on:click={onAddPlayer}>Add Player</button>
         <button on:click={onAddMonster}>Add Monster</button>
         <button on:click={clearAllCombatents}>Clear All</button>
     </div>

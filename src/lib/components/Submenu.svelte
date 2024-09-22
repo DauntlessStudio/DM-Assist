@@ -25,9 +25,15 @@
 		background-color: white;
 		margin:auto;
 	}
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 </style>
 
 <button class="container">
+    <button class="close" on:click={toggleVisibility}>X</button>
     <div use:clickOutside={toggleVisibility} class="center" style="width: {width}px; height: {height}px;">
         <slot></slot>
     </div>
