@@ -2,8 +2,8 @@
 <script lang="ts">
 	import { Monster, type IMonster } from "$lib/dnd/monster";
 	import { removeFromArray } from "$lib/utils";
+	import { EventManager } from "$lib/utils/events";
 
-    export let selectMonster: (monster: Monster) => void;
     export let monsters: IMonster[];
     
     const sizes = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan",];
@@ -77,6 +77,14 @@
 
         monsterList = filteredList;
     }
+
+    function selectMonster(monsterData: IMonster) {
+        const monster = new Monster(monsterData);
+        const id = crypto.randomUUID();
+        const entry = monster;
+        const initiative = monster.Initiative;
+        EventManager.events.addCombatent.raise({id, entry, initiative});
+    }
 </script>
 
 <style>
@@ -145,7 +153,7 @@
         <div class="scrollable-content">
             {#each monsterList as monster}
                 <div>
-                    <button on:click={() => selectMonster(new Monster(monster))}>{monster.name} {monster.size} {monster.types[0]} {monster.challengeRating} {monster.alignment}</button>
+                    <button on:click={() => selectMonster(monster)}>{monster.name} {monster.size} {monster.types[0]} {monster.challengeRating} {monster.alignment}</button>
                 </div>
             {/each}
         </div>

@@ -1,15 +1,16 @@
 <script lang="ts">
     import type { ICombatent } from "$lib/dnd";
 	import Combatent from "./Combatent.svelte";
-	import { Monster } from "$lib/dnd/monster";
+	import { EventManager } from "$lib/utils/events";
 
     let combatents: {[key: string]: ICombatent} = {};
 
-    export function addCombatent(monster: Monster) {
-        const id = crypto.randomUUID();
-        const entry = monster;
-        const initiative = entry.Initiative;
-        combatents[id] = {id, entry, initiative};
+    EventManager.events.addCombatent.subscribe(combatent => {
+        combatents[combatent.id] = combatent;
+    });
+
+    function onAddMonster() {
+        EventManager.events.openSubmenu.raise("monsterList");
     }
 
     function clearAllCombatents() {
@@ -54,7 +55,7 @@
 <div>
     <div>
         <button>Add Player</button>
-        <button>Add Monster</button>
+        <button on:click={onAddMonster}>Add Monster</button>
         <button on:click={clearAllCombatents}>Clear All</button>
     </div>
     <div class="scrollable-pane">
