@@ -17,13 +17,13 @@
         top: 0;
         height: 100%;
         width: 100%;
-        opacity: 50%;
-        background-color: black;
+        background-color: rgba(0, 0, 0, 0.5);
         border: 0;
     }
     .center {
 		background-color: white;
 		margin:auto;
+        opacity: 100%;
 	}
     .close {
         position: absolute;

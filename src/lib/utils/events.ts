@@ -17,10 +17,10 @@ class Event<Params extends unknown[]=[]> {
     }
 }
 
-export type Submenus = "monsterList"|"addPlayer";
+export type Submenus = "monsterList"|"addPlayer"|"combatentDetails";
 export class EventManager {
     public static events = {
-        openSubmenu: new Event<[Submenus]>(),
+        openSubmenu: new Event<[Submenus, ICombatent|undefined]>(),
         closeSubmenu: new Event(),
         addCombatent: new Event<[ICombatent]>(),
     }

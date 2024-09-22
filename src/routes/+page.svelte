@@ -7,14 +7,18 @@
 	import MonsterList from '$lib/components/MonsterList.svelte';
 	import { EventManager, type Submenus } from '$lib/utils/events';
 	import AddPlayer from '$lib/components/AddPlayer.svelte';
+	import CombatentDetails from '$lib/components/CombatentDetails.svelte';
+	import type { ICombatent } from '$lib/dnd';
 
 	export let data: PageData;
 	let showSubmenu: boolean = false;
 	let subMenuType: Submenus;
+	let currentCombatent: ICombatent|undefined;
 
-	EventManager.events.openSubmenu.subscribe((str) => {
+	EventManager.events.openSubmenu.subscribe((str, combatent) => {
 		showSubmenu = true;
 		subMenuType = str;
+		currentCombatent = combatent;
 	});
 
 	EventManager.events.closeSubmenu.subscribe(() => {
@@ -44,6 +48,10 @@
 		{:else if subMenuType === "addPlayer"}
 		<Submenu bind:visible={showSubmenu} height={100} width={600}>
 			<AddPlayer/>
+		</Submenu>
+		{:else if subMenuType === "combatentDetails" && currentCombatent}
+		<Submenu bind:visible={showSubmenu} height={400} width={600}>
+			<CombatentDetails combatent={currentCombatent.entry}/>
 		</Submenu>
 		{/if}
 	{/if}

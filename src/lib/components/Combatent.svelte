@@ -5,12 +5,17 @@
     import trash from "svelte-awesome/icons/trash";
     import streetView from "svelte-awesome/icons/streetView";
     import shield from "svelte-awesome/icons/shield";
+	import { EventManager } from "$lib/utils";
 
     export let deleteCombatent: (id: string) => void;
     export let combatent: ICombatent;
 
     function onDelete() {
         deleteCombatent(combatent.id);
+    }
+
+    function onSelected() {
+        EventManager.events.openSubmenu.raise("combatentDetails", combatent);
     }
 </script>
 
@@ -57,7 +62,9 @@
     <input bind:value={combatent.entry.Name} placeholder={combatent.entry.data.name}/>
     <p style="font-size: 1.0em;">{combatent.entry.data.name}</p>
     <div class=row>
-        <p style="font-size: 2.0em;">{combatent.initiative}</p>
+        <button on:click={onSelected}>
+            <p style="font-size: 2.0em;">{combatent.initiative}</p>
+        </button>
         <RadialBar series={combatent.entry.HealthPercentage} valueLabel={`${combatent.entry.CurrentHP}/${combatent.entry.MaxHP}`} style={"radial"} width={80} thickness={8} colors={["#FF0000"]}/>
         <div class=row-small-gap>
             <Icon data={streetView} scale={1.5}/>

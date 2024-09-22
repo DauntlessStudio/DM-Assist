@@ -1,23 +1,13 @@
-import type { MonsterDamageType } from "./monster";
+export type MonsterBehaviorType = "None"| "Trait"| "Action";
 
-export enum MonsterBehaviorType {
-    "None",
-    "Trait",
-    "Action",
-};
-
-export enum MonsterAttackType {
-    "None",
-    "MeleeWeapon",
-    "RangedWeapon",
-};
+export type MonsterAttackType = "None"|"MeleeWeapon"|"RangedWeapon";
 
 export type MonsterBehavior = {
     name: string;
-    monsterBehaviorType: string;
+    monsterBehaviorType: MonsterBehaviorType;
     description: string;
     descriptionWithLinks: string;
-    attackType: string;
+    attackType: MonsterAttackType;
     restrictions: any;
     attackBonus: number;
     range: string|null;
