@@ -10,12 +10,24 @@
     export let deleteCombatent: (id: string) => void;
     export let combatent: ICombatent;
 
+    combatent.entry.subscribe(updateCombatent);
+
+    let color = "#FF0000";
+
+    function updateCombatent() {
+        combatent = combatent;
+    }
+
     function onDelete() {
         deleteCombatent(combatent.id);
     }
 
     function onSelected() {
         EventManager.events.openSubmenu.raise("combatentDetails", combatent);
+    }
+
+    function onHealthClick() {
+        EventManager.events.openSubmenu.raise("healthMenu", combatent);
     }
 </script>
 
@@ -56,16 +68,31 @@
     p {
         margin-top: .8em;
     }
+    #health-button {
+        background-color: transparent;
+        border: 0;
+    }
+    #monster-button, #monster-button:focus {
+        background-color: transparent;
+        border: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    #monster-button:hover p {
+        color: red;
+    }
 </style>
 
 <div class=parent>
     <input bind:value={combatent.entry.Name} placeholder={combatent.entry.data.name}/>
-    <p style="font-size: 1.0em;">{combatent.entry.data.name}</p>
+    <button on:click={onSelected} id="monster-button">
+        <p style="font-size: 1.0em;">{combatent.entry.data.name}</p>
+    </button>
     <div class=row>
-        <button on:click={onSelected}>
-            <p style="font-size: 2.0em;">{combatent.initiative}</p>
+        <p style="font-size: 2.0em;">{combatent.initiative}</p>
+        <button on:click={onHealthClick} id="health-button">
+            <RadialBar series={combatent.entry.HealthPercentage} valueLabel={`${combatent.entry.CurrentHP}/${combatent.entry.MaxHP}`} style={"radial"} width={80} thickness={8} colors={[color]}/>
         </button>
-        <RadialBar series={combatent.entry.HealthPercentage} valueLabel={`${combatent.entry.CurrentHP}/${combatent.entry.MaxHP}`} style={"radial"} width={80} thickness={8} colors={["#FF0000"]}/>
         <div class=row-small-gap>
             <Icon data={streetView} scale={1.5}/>
             <p>{combatent.entry.data.speeds}</p>

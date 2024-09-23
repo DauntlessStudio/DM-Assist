@@ -9,6 +9,7 @@
 	import { EventManager, type Submenus } from '$lib/utils/events';
 	import AddPlayer from '$lib/components/AddPlayer.svelte';
 	import CombatentDetails from '$lib/components/CombatentDetails.svelte';
+	import HealthMenu from '$lib/components/HealthMenu.svelte';
 	import type { ICombatent } from '$lib/dnd';
 
 	export let data: PageData;
@@ -53,6 +54,10 @@
 		{:else if subMenuType === "combatentDetails" && currentCombatent}
 		<Submenu bind:visible={showSubmenu} height={400} width={600}>
 			<CombatentDetails combatent={currentCombatent.entry}/>
+		</Submenu>
+		{:else if subMenuType === "healthMenu" && currentCombatent}
+		<Submenu bind:visible={showSubmenu} height={100} width={600}>
+			<HealthMenu combatent={currentCombatent}/>
 		</Submenu>
 		{/if}
 	{/if}

@@ -89,6 +89,8 @@ export class Monster {
     private curHP: number;
     private initiative: number;
     private name: string;
+
+    private readonly callbacks: (() => void)[] = [];
     
     public get Name() : string {
         return this.name;
@@ -107,11 +109,12 @@ export class Monster {
     }
     
     public set CurrentHP(v : number) {
-        this.curHP = v;
+        this.curHP = Math.min(this.MaxHP, Math.max(0, v));
+        this.raise();
     }
     
     public get HealthPercentage() : number {
-        return (this.MaxHP/this.CurrentHP) * 100
+        return (this.CurrentHP/this.MaxHP) * 100
     }
     
     public get Initiative() : number {
@@ -125,6 +128,14 @@ export class Monster {
 
         this.initiative = Dice.rollString(`d20 + ${data.dexterityModifier}`);
         this.name = data.name;
+    }
+
+    subscribe(callback: () => void) {
+        this.callbacks.push(callback);
+    }
+
+    raise() {
+        this.callbacks.forEach(c => c());
     }
 }
 
