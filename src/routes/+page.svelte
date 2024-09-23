@@ -1,6 +1,7 @@
 <script lang="ts">
   	import type { PageData } from './$types';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
+	import CombatInfo from '$lib/components/CombatInfo.svelte';
 	import Submenu from '$lib/components/Submenu.svelte';
     import DiceBox from '$lib/components/DiceBox.svelte';
 	import CombatPanel from '$lib/components/CombatPanel.svelte';
@@ -33,7 +34,7 @@
 				<DiceBox/>
 			</Pane>
 			<Pane>
-				Combat Text Here
+				<CombatInfo/>
 			</Pane>
 			<Pane minSize={25} size={25}>
 				<CombatPanel/>
