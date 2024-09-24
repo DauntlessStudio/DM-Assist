@@ -15,13 +15,6 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
-
-		paths: {
-			base: '/DM-Assist',
-		},
-
-		// This setting is crucial for SPA (Single Page Application) routing
-		appDir: 'app',
 	}
 };
 
