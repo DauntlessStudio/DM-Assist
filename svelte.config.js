@@ -16,6 +16,10 @@ const config = {
 			strict: true
 		}),
 
+		paths: {
+			base: process.env.NODE_ENV === 'development' ? '' : '/DM-Assist',
+		},
+
 		// This setting is crucial for SPA (Single Page Application) routing
 		appDir: 'app',
 	}

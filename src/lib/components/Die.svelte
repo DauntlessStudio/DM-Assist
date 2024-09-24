@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { base } from '$app/paths';
     import { getRandomInteger } from "$lib/utils";
 
     export let value: number;
@@ -32,6 +33,6 @@
 
 <div>
     <button on:click={onRoll}>
-        <img src={`/images/d${value}.png`} alt={`A D${value} Die`} class="red-filter"/>
+        <img src={`${base}/images/d${value}.png`} alt={`A D${value} Die`} class="red-filter"/>
     </button>
 </div>
