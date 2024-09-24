@@ -15,6 +15,9 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+
+		// This setting is crucial for SPA (Single Page Application) routing
+		appDir: 'app',
 	}
 };
 
