@@ -19,7 +19,7 @@ export class Dice {
 
     private static parse(roll: string) {
         const parts: (number|Range)[] = [];
-        const components = roll.match(/\+|\-|\d?(d\d+)?/g);
+        const components = roll.match(/\+|\-|\d*(d\d+)?/g);
 
         if (components) {
             let sign = 1;

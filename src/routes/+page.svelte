@@ -52,7 +52,7 @@
 			<AddPlayer/>
 		</Submenu>
 		{:else if subMenuType === "combatentDetails" && currentCombatent}
-		<Submenu bind:visible={showSubmenu} height={400} width={600}>
+		<Submenu bind:visible={showSubmenu} height={800} width={800}>
 			<CombatentDetails combatent={currentCombatent.entry}/>
 		</Submenu>
 		{:else if subMenuType === "healthMenu" && currentCombatent}

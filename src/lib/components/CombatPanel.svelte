@@ -10,11 +10,11 @@
     });
 
     function onAddMonster() {
-        EventManager.events.openSubmenu.raise("monsterList");
+        EventManager.events.openSubmenu.raise("monsterList", undefined);
     }
 
     function onAddPlayer() {
-        EventManager.events.openSubmenu.raise("addPlayer");
+        EventManager.events.openSubmenu.raise("addPlayer", undefined);
     }
 
     function clearAllCombatents() {
@@ -64,7 +64,7 @@
     </div>
     <div class="scrollable-pane">
         <div class="scrollable-content">
-            {#each Object.values(combatents).sort((a, b) => a.initiative - b.initiative) as combatent}
+            {#each Object.values(combatents).sort((a, b) => b.initiative - a.initiative) as combatent}
                 <Combatent combatent={combatent} deleteCombatent={deleteCombatent}/>
             {/each}
         </div>
