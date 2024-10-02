@@ -46,18 +46,15 @@ export class Dice {
     }
 
     private static rollValue(values: (number|Range)[]) {
-        console.log("Rolling");
         let total: number = 0;
 
         for (const val of values) {
             if (typeof val === "number") {
                 total += val;
-                console.log(`Modified ${val}`);
             } else {
                 for (let index = 0; index < val.amount; index++) {
                     const roll = getRandomInteger(val.min, val.max);
                     total += roll;
-                    console.log(`Rolled ${roll}`);
                 }
             }
         }

@@ -64,7 +64,7 @@
     </div>
     <div class="scrollable-pane">
         <div class="scrollable-content">
-            {#each Object.values(combatents).sort((a, b) => b.initiative - a.initiative) as combatent}
+            {#each Object.entries(combatents).sort(([, a], [, b]) => b.initiative - a.initiative) as [id, combatent] (id)}
                 <Combatent combatent={combatent} deleteCombatent={deleteCombatent}/>
             {/each}
         </div>

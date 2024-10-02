@@ -73,7 +73,7 @@
                 <h1>{combatent.data.name.toUpperCase()}</h1>
                 <p><i>{combatent.data.types[0]}, {combatent.data.alignment}</i></p>
                 <p><b>Armor Class</b> {combatent.data.armorClass} ({combatent.data.armorType})</p>
-                <p><b>Hit Points</b> {combatent.CurrentHP} ({combatent.data.hitPointRoll})</p>
+                <p><b>Hit Points</b> {combatent.CurrentHP}/{combatent.MaxHP} ({combatent.data.hitPointRoll})</p>
                 <p><b>Speed</b> {combatent.data.speeds}</p>
                 <div class="stat-block">
                     <p><b>STR</b><br>{combatent.data.strength} ({combatent.data.strengthModifier})</p>

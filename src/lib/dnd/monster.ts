@@ -135,6 +135,7 @@ export class Monster {
     }
 
     raise() {
+        console.log(`Raising ${this.callbacks.length} Listeners`);
         this.callbacks.forEach(c => c());
     }
 }
