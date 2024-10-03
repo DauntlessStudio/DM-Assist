@@ -57,6 +57,7 @@
                      - Combatants can only pass through another's space if (a) the one occupying that space lets them, (b) there are at least two levels of size difference between them. Another creature's space counts as difficult terrain, and you cannot end your turn in another's space willingly.<br>
                      - <b>Opportunity Attacks</b> are a <i>reaction</i> provoked when one creature <i>leaves</i> another's space.<br>
                      - Working on a <b>grid</b> means each square represents 5 ft. Diagonal movement costs 1.5 movement (done as one square costs 5 and the second costs 10, alternating) and cannot cross walls or corners.<br>
+                     - <b>Cover</b> grants a bonus to AC and Dexterity saving throws depending on the amount of cover. <b>1/4 cover</b> provides a +2 bonus. <b>1/2 cover</b> provides a +3 bonus. <b>3/4 cover</b> provides a +5 bonus. <b>Full cover</b> means you cannot be hit directly by an attack or power.<br>
                 </p>
                 <h2>COMMON ACTIONS</h2>
                 <p class="reduced-margin">
